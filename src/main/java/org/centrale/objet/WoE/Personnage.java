@@ -91,4 +91,8 @@ public class Personnage {
     public void setPos(Point2D pos) {
         this.pos = pos;
     }
+
+    public void deplace() {
+
+    }
 }

@@ -9,7 +9,6 @@ public class Paysan extends Personnage{
         super((Personnage)p);
     }
     public Paysan(){
-
     }
 
 }
