@@ -25,7 +25,7 @@ public class World {
                 }
             }
             if(different)
-                points.add(new Point2D(random.nextInt(), random.nextInt()));
+                points.add(point);
         }
         robin.setPos(points.get(0));
         paysan.setPos(points.get(1));
