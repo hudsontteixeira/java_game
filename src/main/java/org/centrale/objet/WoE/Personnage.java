@@ -1,5 +1,7 @@
 package org.centrale.objet.WoE;
 
+import java.util.Random;
+
 public class Personnage {
     private String nom;
     private int ptVie;
@@ -93,6 +95,10 @@ public class Personnage {
     }
 
     public void deplace() {
-
+        Random random1 = new Random();
+        Random random2 = new Random();
+        int numberRdnx = random1.nextInt(2 + 1) - 1;
+        int numberRdny = random2.nextInt(2 + 1) - 1;
+        pos.translate(numberRdnx,numberRdny);
     }
 }

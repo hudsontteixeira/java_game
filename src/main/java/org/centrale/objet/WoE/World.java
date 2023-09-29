@@ -31,10 +31,17 @@ public class World {
         paysan.setPos(points.get(1));
         lapin1.setPos(points.get(2));
         lapin2.setPos(points.get(3));
-
-        System.out.println(robin.getPos().toString());
-        System.out.println(paysan.getPos().toString());
-        System.out.println(lapin1.getPos().toString());
-        System.out.println(lapin2.getPos().toString());
+        System.out.println("Début Robin "+robin.getPos().toString());
+        System.out.println("Début Paysan "+paysan.getPos().toString());
+        paysan.deplace();
+        System.out.println("Deplacement1 Paysan "+paysan.getPos().toString());
+        paysan.deplace();
+        System.out.println("Deplacement2 Paysan "+paysan.getPos().toString());
+        paysan.deplace();
+        System.out.println("Deplacement3 Paysan "+paysan.getPos().toString());
+        paysan.deplace();
+        System.out.println("Deplacement4 Paysan "+paysan.getPos().toString());
+        System.out.println("Début Lapin1 "+lapin1.getPos().toString());
+        System.out.println("Début Lapin2 "+lapin2.getPos().toString());
     }
 }
