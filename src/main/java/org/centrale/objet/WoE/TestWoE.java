@@ -4,5 +4,7 @@ public class TestWoE {
     public static void main(String[] args) {
         World mundo = new World();
         mundo.creerMondeAlea();
+
+
     }
 }

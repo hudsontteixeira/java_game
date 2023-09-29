@@ -2,80 +2,40 @@ package org.centrale.objet.WoE;
 
 import java.util.Random;
 
-public class Personnage {
-    private String nom;
-    private int ptVie;
-    private int degAtt;
-    private int ptPar;
-    private int pageAtt;
-    private int pagePar;
+public class Personnage extends Creature {
+    /**
+     * @autor LOPEZ TEIXEIRA
+     */
     private int distAttMax;
-    private Point2D pos;
 
+    /**
+     *
+     * @param nom variable pour definir un nom au personnage
+     * @param ptVie variable pour definir une quantité de points de vie au personnage
+     * @param degAtt variable pour definir le valeur du dégât lors combat
+     * @param ptPar variable pour definir la quantité de points défendus lors d'une attaque
+     * @param pageAtt write
+     * @param pagePar write
+     * @param distAttMax write
+     * @param pos write
+     */
     public Personnage(String nom, int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, int distAttMax, Point2D pos) {
-        this.nom = nom;
-        this.ptVie = ptVie;
-        this.degAtt = degAtt;
-        this.ptPar = ptPar;
-        this.pageAtt = pageAtt;
-        this.pagePar = pagePar;
+        super(nom,ptVie,degAtt,ptPar,pageAtt,pagePar,pos);
         this.distAttMax = distAttMax;
-        this.pos = pos;
     }
-
     public Personnage(Personnage perso) {
-        this.nom = perso.nom;
-        this.ptVie = perso.ptVie;
-        this.degAtt = perso.degAtt;
-        this.ptPar = perso.ptPar;
-        this.pageAtt = perso.pageAtt;
-        this.pagePar = perso.pagePar;
-        this.distAttMax = perso.distAttMax;
-        this.pos = perso.pos;
+        super(perso);
     }
 
+    public Personnage(Personnage perso, int distAttMax) {
+        super(perso);
+        this.distAttMax = distAttMax;
+    }
+
+    /**
+     *
+     */
     public Personnage() {
-
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public int getPtVie() {
-        return ptVie;
-    }
-
-    public void setPtVie(int ptVie) {
-        this.ptVie = ptVie;
-    }
-
-    public int getDegAtt() {
-        return degAtt;
-    }
-
-    public void setDegAtt(int degAtt) {
-        this.degAtt = degAtt;
-    }
-
-    public int getPageAtt() {
-        return pageAtt;
-    }
-
-    public void setPageAtt(int pageAtt) {
-        this.pageAtt = pageAtt;
-    }
-
-    public int getPagePar() {
-        return pagePar;
-    }
-
-    public void setPagePar(int pagePar) {
-        this.pagePar = pagePar;
     }
 
     public int getDistAttMax() {
@@ -86,19 +46,8 @@ public class Personnage {
         this.distAttMax = distAttMax;
     }
 
-    public Point2D getPos() {
-        return pos;
-    }
-
-    public void setPos(Point2D pos) {
-        this.pos = pos;
-    }
-
-    public void deplace() {
-        Random random1 = new Random();
-        Random random2 = new Random();
-        int numberRdnx = random1.nextInt(2 + 1) - 1;
-        int numberRdny = random2.nextInt(2 + 1) - 1;
-        pos.translate(numberRdnx,numberRdny);
+    // Methode distance
+    public double distance(Point2D point) {
+        return Math.sqrt(Math.pow((super.getPos().x-point.x),2)+Math.pow((super.getPos().y-point.y),2));
     }
 }
