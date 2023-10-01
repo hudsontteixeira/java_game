@@ -55,6 +55,14 @@ public class Creature {
         this.degAtt = degAtt;
     }
 
+    public int getPtPar() {
+        return ptPar;
+    }
+
+    public void setPtPar(int ptPar) {
+        this.ptPar = ptPar;
+    }
+
     public int getPageAtt() {
         return pageAtt;
     }

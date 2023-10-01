@@ -1,3 +1,5 @@
+
+
 package org.centrale.objet.WoE;
 
 import java.util.Random;
@@ -46,8 +48,4 @@ public class Personnage extends Creature {
         this.distAttMax = distAttMax;
     }
 
-    // Methode distance
-    public double distance(Point2D point) {
-        return Math.sqrt(Math.pow((super.getPos().x-point.x),2)+Math.pow((super.getPos().y-point.y),2));
-    }
 }

@@ -75,7 +75,7 @@ public class World {
         guillaumeT.affiche();
         System.out.println("Robin: ");
         robin.affiche();
-        double distRobPeon = new Double(robin.distance(peon.getPos()));
+        double distRobPeon = new Double(robin.getPos().distance(peon.getPos()));
 
         System.out.println("Dist Robin et peon: "+distRobPeon);
 
