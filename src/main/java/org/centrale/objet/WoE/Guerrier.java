@@ -30,11 +30,17 @@ public class Guerrier extends Personnage {
                     //Défense
                     C.setPtVie(C.getPtVie()-this.getDegAtt());
                     C.setPtVie(C.getPtVie()+C.getPtPar());
+                        if(C.getPtVie()<0){
+                            C.setPtVie(0);
+                        }
                     System.out.println(C.getNom() + " a reussi la defense et reste avec PtVie:" + C.getPtVie());
 
                 } else{
                     //Sans Défense
                     C.setPtVie(C.getPtVie()-this.getDegAtt());
+                    if(C.getPtVie()<0){
+                        C.setPtVie(0);
+                    }
                     System.out.println(C.getNom() + " reste avec PtVie:" + C.getPtVie());
                 }
             } else{

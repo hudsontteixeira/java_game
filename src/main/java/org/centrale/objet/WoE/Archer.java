@@ -42,6 +42,9 @@ public class Archer extends Personnage {
                     // reussi
                         //Sans Défense
                         C.setPtVie(C.getPtVie()-this.getDegAtt());
+                            if(C.getPtVie()<0){
+                                C.setPtVie(0);
+                            }
                         System.out.println(C.getNom() + "PtVie:" + C.getPtVie());
                 } else{
                     System.out.println(this.getNom()+" a échoue l'attaque");

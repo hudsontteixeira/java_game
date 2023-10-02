@@ -47,5 +47,29 @@ public class Personnage extends Creature {
     public void setDistAttMax(int distAttMax) {
         this.distAttMax = distAttMax;
     }
+    public void prendObjet(Objet objet){
+            //check if object is close
+            if (this.getPos().distance(objet.getPos()) == 0) {
+                if (objet instanceof Epee) {
+                    Epee sword = (Epee) objet;
+                    this.setDegAtt(this.getDegAtt() + (sword.getPtdegat()));
+                    objet = null;
+                }
+                if (objet instanceof PotionSoin) {
+                    //check if warior is hurt
+                    if(this.getPtVie()<100) {
+                    PotionSoin potion = (PotionSoin) objet;
+                    this.setPtVie(this.getPtVie() + (potion.getPtRevit()));
+                        if(this.getPtVie()>100) {this.setPtVie(100);}
+                        objet = null;
+                    } else{
+                        System.out.println("vous êtes déjÀ Guerri et peut pas prendre la potion");
+                    }
+                }
+            } else {
+                System.out.println("vous êtes loin d'objet");
+            }
+        }
+
 
 }

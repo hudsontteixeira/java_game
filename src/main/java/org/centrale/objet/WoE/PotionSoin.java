@@ -7,4 +7,12 @@ public class PotionSoin extends Objet{
         super(pos);
         this.ptRevit = ptRevit;
     }
+
+    public int getPtRevit() {
+        return ptRevit;
+    }
+
+    public void setPtRevit(int ptRevit) {
+        this.ptRevit = ptRevit;
+    }
 }
