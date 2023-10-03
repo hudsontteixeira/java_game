@@ -1,9 +1,5 @@
 package org.centrale.objet.WoE;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.Random;
+import java.util.*;
 
 public class World {
     ArrayList<Creature> creatures;
@@ -12,52 +8,42 @@ public class World {
     Archer robin;
     Lapin bugs1;
     Lapin bugs2;
+    Lapin bug1;
+    Lapin bug2;
     Paysan peon;
     Guerrier grosBill;
     Loup wolfie;
+    Loup wolfie2;
+    PotionSoin possionMagic;
+    Epee sword;
     int taille;
     Matrix espaceMatrix;
 
 
-    public void creerMatrixPosition(){
-        taille = 6;
-        espaceMatrix = new Matrix(new int[taille][taille]);
-        Archer robin1 = new Archer("robin1",100,20,10,80,40,20,new Point2D(0,0),3);
-        Archer robin2 = new Archer("robin2",100,20,10,80,40,20,new Point2D(5,5),3);
-        Archer robin3 = new Archer("robin3",100,20,10,80,40,20,new Point2D(1,1),3);
-        Archer robin4 = new Archer("robin3",100,20,10,80,40,20,new Point2D(1,2),3);
-        Archer robin5 = new Archer("robin3",100,20,10,80,40,20,new Point2D(2,2),3);
-        Archer robin6 = new Archer("robin3",100,20,10,80,40,20,new Point2D(3,3),3);
-        Archer robin7 = new Archer("robin3",100,20,10,80,40,20,new Point2D(4,4),3);
-
-        espaceMatrix.setPositionMatrix(robin1.getPos(),1);
-        espaceMatrix.setPositionMatrix(robin2.getPos(),1);
-        espaceMatrix.setPositionMatrix(robin3.getPos(),1);
-        espaceMatrix.setPositionMatrix(robin4.getPos(),1);
-
-        robin4.deplace(espaceMatrix);
-        robin4.deplace(espaceMatrix);
-        robin4.deplace(espaceMatrix);
-        robin4.deplace(espaceMatrix);
-        robin4.deplace(espaceMatrix);
-        robin4.deplace(espaceMatrix);
-        robin4.deplace(espaceMatrix);
-        robin4.deplace(espaceMatrix);
-        robin4.deplace(espaceMatrix);
+    public void startGame(){
+        System.out.println("Bienvenue dans WoE : Pour tester un monde aléatoire appuyez 1,") ;
+        System.out.println("pour générer un monde de combat appuyez 2, pour tester un monde avec de grandes collections et tester leurs performances appuyez 3,");
+        System.out.println("pour générer un monde où les personnages ne peuvent pas se chevaucher appuyez 4.");
+        Scanner sc = new Scanner(System.in);
+        int startOption = sc.nextInt();
+        if(startOption==1){
+            this.creerMondeAlea();
+        }
+        if(startOption==2){
+            this.creerCombatMondeAlea();
+        }
+        if(startOption==3){
+            this.creerMondeAleaCollections();
+        }
+        if(startOption==4){
+            this.creerMatrixPosition();
+        }
     }
 
-
-
-    /**
-     * @autor LOPEZ TEIXEIRA
-     */
     public World() {
         this.creatures = new ArrayList<Creature>();
     }
 
-    /**
-     *
-     */
     public void creerMondeAlea(){
         robin = new Archer();
         peon = new Paysan();
@@ -115,6 +101,47 @@ public class World {
         double distRobPeon = new Double(robin.getPos().distance(peon.getPos()));
 
         System.out.println("Dist Robin et peon: "+distRobPeon);
+
+    }
+
+    public void creerCombatMondeAlea(){
+        //Set Robin 3 flèches Position (0,0)
+        robin = new Archer("robin",100,20,10,80,40,20,new Point2D(0,0),3);
+        grosBill = new Guerrier("grossBill",100,20,10,20,30,0,new Point2D(13,9));
+        wolfie = new Loup("Wolfie1",100,20,10,70,80,new Point2D(12,9));
+        wolfie2 = new Loup("Wolfie2",100,20,10,70,80,new Point2D(0,0));
+        //Set Bug Position (12,9)
+        bug1 = new Lapin("lapin1",100,0,20,0,80,new Point2D(12,9));
+        bug2 = new Lapin("lapin2",100,0,20,0,80,new Point2D(40,40));
+        possionMagic = new PotionSoin(new Point2D(11,11),10);
+        sword = new Epee(new Point2D(10,10),10);
+        System.out.println("Simulation Archer Toue une Bug que c'est dans une dist < 20");
+        robin.combattre(bug1);
+        robin.combattre(bug1);
+        robin.combattre(bug1);
+        robin.combattre(bug1);
+        System.out.println("Simulation Archer Toue une Bug que c'est dans une dist > 20");
+        robin.setNbFleches(1);
+        robin.combattre(bug2);
+        System.out.println("Simulation Guerrier Toue une Loup dist=1");
+        grosBill.combattre(wolfie);
+        wolfie.combattre(grosBill);
+        grosBill.combattre(wolfie);
+        wolfie.combattre(grosBill);
+        grosBill.combattre(wolfie);
+        wolfie.combattre(grosBill);
+        System.out.println("Simulation Guerrier Toue une Loup dist!=1");
+        grosBill.combattre(wolfie2);
+        System.out.println("Guerrier prend potion loin");
+        grosBill.prendObjet(possionMagic);
+        System.out.println("Guerrier prend potion bonne place");
+        grosBill.setPos(new Point2D(11,11));
+        grosBill.prendObjet(possionMagic);
+        System.out.println("Guerrier prend Epee loin");
+        grosBill.prendObjet(sword);
+        System.out.println("Guerrier prend Epee bonne place");
+        grosBill.setPos(new Point2D(10,10));
+        grosBill.prendObjet(sword);
 
     }
     public void creerMondeAleaCollections(){
@@ -237,9 +264,46 @@ public class World {
         System.out.println(timeH-timeG);
         System.out.println(TotalVie4);
     }
+    public void creerMatrixPosition(){
+        taille = 3;
+        espaceMatrix = new Matrix(new int[taille][taille]);
+        Archer robin1 = new Archer("robin1",100,20,10,80,40,20,new Point2D(0,0),3);
+        Archer robin2 = new Archer("robin2",100,20,10,80,40,20,new Point2D(0,1),3);
+        Archer robin3 = new Archer("robin3",100,20,10,80,40,20,new Point2D(1,2),3);
+        Archer robin4 = new Archer("robin3",100,20,10,80,40,20,new Point2D(1,1),3);
 
-    public void creerMondeDeplacementPasOcuppee(){
-        creerMatrixPosition();
+        espaceMatrix.setPositionMatrix(robin1.getPos(),1);
+        espaceMatrix.setPositionMatrix(robin2.getPos(),1);
+        espaceMatrix.setPositionMatrix(robin3.getPos(),1);
+        espaceMatrix.setPositionMatrix(robin4.getPos(),1);
+        espaceMatrix.affiche();
+        System.out.println();
+        robin4.deplace(espaceMatrix);
+        espaceMatrix.affiche();
+        System.out.println();
+        robin4.deplace(espaceMatrix);
+        espaceMatrix.affiche();
+        System.out.println();
+        robin4.deplace(espaceMatrix);
+        espaceMatrix.affiche();
+        System.out.println();
+        robin4.deplace(espaceMatrix);
+        espaceMatrix.affiche();
+        System.out.println();
+        robin4.deplace(espaceMatrix);
+        espaceMatrix.affiche();
+        System.out.println();
+        robin4.deplace(espaceMatrix);
+        espaceMatrix.affiche();
+        System.out.println();
+        robin4.deplace(espaceMatrix);
+        espaceMatrix.affiche();
+        System.out.println();
+        robin4.deplace(espaceMatrix);
+        espaceMatrix.affiche();
+        System.out.println();
+        robin4.deplace(espaceMatrix);
+        espaceMatrix.affiche();
     }
     public void tourDeJeu(){
 

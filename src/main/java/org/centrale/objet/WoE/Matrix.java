@@ -29,7 +29,15 @@ public class Matrix {
             } else{
                 System.out.println("Out of borders");
             }
+    }
 
+    public void affiche(){
 
+        for (int i = 0; i < this.espaceMatrix.length; i++) { //this equals to the row in our matrix.
+            for (int j = 0; j < this.espaceMatrix[i].length; j++) { //this equals to the column in each row.
+                System.out.print(this.espaceMatrix[i][j] + " ");
+            }
+            System.out.println(); //change line on console as row comes to end in the matrix.
+        }
     }
 }
