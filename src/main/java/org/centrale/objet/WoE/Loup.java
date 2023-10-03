@@ -7,8 +7,8 @@ public class Loup extends Monstre{
         super(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, pos);
     }
 
-    public Loup(Creature creat) {
-        super(creat);
+    public Loup(Monstre monstre) {
+        super(monstre);
     }
 
     public Loup() {

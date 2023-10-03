@@ -1,6 +1,10 @@
 package org.centrale.objet.WoE;
 import java.util.*;
-
+/**
+ * Classe de création du Monde
+ * @author LOPEZ TEIXEIRA
+ * @version 1.0
+ */
 public class World {
     ArrayList<Creature> creatures;
     ArrayList<Objet> objets;
@@ -19,7 +23,9 @@ public class World {
     int taille;
     Matrix espaceMatrix;
 
-
+    /**
+     * Fonction que demande une option de jeu pour commencer
+     */
     public void startGame(){
         System.out.println("Bienvenue dans WoE : Pour tester un monde aléatoire appuyez 1,") ;
         System.out.println("pour générer un monde de combat appuyez 2, pour tester un monde avec de grandes collections et tester leurs performances appuyez 3,");
@@ -40,10 +46,16 @@ public class World {
         }
     }
 
+    /**
+     * Constructeur pour créer un monde default avec un liste de créatures
+     */
     public World() {
         this.creatures = new ArrayList<Creature>();
     }
 
+    /**
+     * Fonction pour créer un monde avec quelques creatures pour essaier les fonctions de deplacement des différents créatures
+     */
     public void creerMondeAlea(){
         robin = new Archer();
         peon = new Paysan();
@@ -104,6 +116,9 @@ public class World {
 
     }
 
+    /**
+     * Fonction pour créer un monde avec une simulation de combattre entre 6 créatures
+     */
     public void creerCombatMondeAlea(){
         //Set Robin 3 flèches Position (0,0)
         robin = new Archer("robin",100,20,10,80,40,20,new Point2D(0,0),3);
@@ -132,15 +147,15 @@ public class World {
         wolfie.combattre(grosBill);
         System.out.println("Simulation Guerrier Toue une Loup dist!=1");
         grosBill.combattre(wolfie2);
-        System.out.println("Guerrier essaye prendre potion loin");
+        System.out.println("Guerrier essaie prendre potion loin");
         grosBill.prendObjet(possionMagic);
-        System.out.println("Guerrier essaye prendre potion bonne place");
+        System.out.println("Guerrier essaie prendre potion bonne place");
         grosBill.setPos(new Point2D(11,11));
         grosBill.prendObjet(possionMagic);
         System.out.println("Guerrier ptVie:"+grosBill.getPtVie());
-        System.out.println("Guerrier essaye prendre Epee loin");
+        System.out.println("Guerrier essaie prendre Epee loin");
         grosBill.prendObjet(sword);
-        System.out.println("Guerrier essaye prendre Epee bonne place");
+        System.out.println("Guerrier essaie prendre Epee bonne place");
         System.out.println("Guerrier degat avant:"+grosBill.getDegAtt());
         grosBill.setPos(new Point2D(10,10));
         grosBill.prendObjet(sword);
@@ -148,6 +163,10 @@ public class World {
 
 
     }
+
+    /**
+     * Fonction pour créer un monde avec plusieurs personnages pour faire des essaies de performance
+     */
     public void creerMondeAleaCollections(){
         taille = 50;
         Random random = new Random();
@@ -268,6 +287,10 @@ public class World {
         System.out.println(timeH-timeG);
         System.out.println(TotalVie4);
     }
+
+    /**
+     * Fonction permettant de créer un jeu avec une matrice qui stocke la position des créatures
+     */
     public void creerMatrixPosition(){
         taille = 3;
         espaceMatrix = new Matrix(new int[taille][taille]);
@@ -309,9 +332,17 @@ public class World {
         robin4.deplace(espaceMatrix);
         espaceMatrix.affiche();
     }
+
+    /**
+     * Fonction pour définir le tour du jeu
+     */
     public void tourDeJeu(){
 
     }
+
+    /**
+     * Fonction pour afficher le monde
+     */
     public void afficheWorld(){
 
     }
