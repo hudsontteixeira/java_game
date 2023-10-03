@@ -5,8 +5,8 @@ public class Lapin extends Monstre {
         super(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, pos);
     }
 
-    public Lapin(Creature creat) {
-        super(creat);
+    public Lapin(Monstre monstre) {
+        super(monstre);
     }
 
     public Lapin(Lapin l){
