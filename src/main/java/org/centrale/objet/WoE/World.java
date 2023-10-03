@@ -16,6 +16,38 @@ public class World {
     Guerrier grosBill;
     Loup wolfie;
     int taille;
+    Matrix espaceMatrix;
+
+
+    public void creerMatrixPosition(){
+        taille = 6;
+        espaceMatrix = new Matrix(new int[taille][taille]);
+        Archer robin1 = new Archer("robin1",100,20,10,80,40,20,new Point2D(0,0),3);
+        Archer robin2 = new Archer("robin2",100,20,10,80,40,20,new Point2D(5,5),3);
+        Archer robin3 = new Archer("robin3",100,20,10,80,40,20,new Point2D(1,1),3);
+        Archer robin4 = new Archer("robin3",100,20,10,80,40,20,new Point2D(1,2),3);
+        Archer robin5 = new Archer("robin3",100,20,10,80,40,20,new Point2D(2,2),3);
+        Archer robin6 = new Archer("robin3",100,20,10,80,40,20,new Point2D(3,3),3);
+        Archer robin7 = new Archer("robin3",100,20,10,80,40,20,new Point2D(4,4),3);
+
+        espaceMatrix.setPositionMatrix(robin1.getPos(),1);
+        espaceMatrix.setPositionMatrix(robin2.getPos(),1);
+        espaceMatrix.setPositionMatrix(robin3.getPos(),1);
+        espaceMatrix.setPositionMatrix(robin4.getPos(),1);
+
+        robin4.deplace(espaceMatrix);
+        robin4.deplace(espaceMatrix);
+        robin4.deplace(espaceMatrix);
+        robin4.deplace(espaceMatrix);
+        robin4.deplace(espaceMatrix);
+        robin4.deplace(espaceMatrix);
+        robin4.deplace(espaceMatrix);
+        robin4.deplace(espaceMatrix);
+        robin4.deplace(espaceMatrix);
+    }
+
+
+
     /**
      * @autor LOPEZ TEIXEIRA
      */
@@ -51,13 +83,13 @@ public class World {
         bugs2.setPos(points.get(3));
         System.out.println("Début Robin "+robin.getPos().toString());
         System.out.println("Début Paysan "+peon.getPos().toString());
-        peon.deplace();
+        peon.deplace(espaceMatrix);
         System.out.println("Deplacement1 Paysan "+peon.getPos().toString());
-        peon.deplace();
+        peon.deplace(espaceMatrix);
         System.out.println("Deplacement2 Paysan "+peon.getPos().toString());
-        peon.deplace();
+        peon.deplace(espaceMatrix);
         System.out.println("Deplacement3 Paysan "+peon.getPos().toString());
-        peon.deplace();
+        peon.deplace(espaceMatrix);
         System.out.println("Deplacement4 Paysan "+peon.getPos().toString());
         System.out.println("Début Lapin1 ");
         bugs1.affiche();
@@ -73,7 +105,7 @@ public class World {
         guillaumeT.affiche();
 
         System.out.println("Deplacement...");
-        robin.deplace();
+        robin.deplace(espaceMatrix);
 
         System.out.println("Guillaume: ");
         guillaumeT.affiche();
@@ -206,6 +238,9 @@ public class World {
         System.out.println(TotalVie4);
     }
 
+    public void creerMondeDeplacementPasOcuppee(){
+        creerMatrixPosition();
+    }
     public void tourDeJeu(){
 
     }

@@ -94,12 +94,23 @@ public class Creature {
     /**
      *
      */
-    public void deplace() {
+    public void deplace(Matrix monde) {
         Random random1 = new Random();
         Random random2 = new Random();
         int numberRdnx = random1.nextInt(2 + 1) - 1;
         int numberRdny = random2.nextInt(2 + 1) - 1;
-        pos.translate(numberRdnx,numberRdny);
+        while (monde.getPositionMatrix(new Point2D(pos.getX()+numberRdnx,pos.getY()+numberRdny))==1){
+            random1 = new Random();
+            random2 = new Random();
+            numberRdnx = random1.nextInt(2 + 1) - 1;
+            numberRdny = random2.nextInt(2 + 1) - 1;
+        }
+        if(monde.getPositionMatrix(new Point2D(pos.getX()+numberRdnx,pos.getY()+numberRdny))==0){
+                monde.setPositionMatrix(pos, 0);
+                pos.translate(numberRdnx, numberRdny);
+                monde.setPositionMatrix(pos, 1);
+
+        }
     }
 
     public void affiche() {
