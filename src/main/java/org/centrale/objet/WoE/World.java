@@ -132,16 +132,20 @@ public class World {
         wolfie.combattre(grosBill);
         System.out.println("Simulation Guerrier Toue une Loup dist!=1");
         grosBill.combattre(wolfie2);
-        System.out.println("Guerrier prend potion loin");
+        System.out.println("Guerrier essaye prendre potion loin");
         grosBill.prendObjet(possionMagic);
-        System.out.println("Guerrier prend potion bonne place");
+        System.out.println("Guerrier essaye prendre potion bonne place");
         grosBill.setPos(new Point2D(11,11));
         grosBill.prendObjet(possionMagic);
-        System.out.println("Guerrier prend Epee loin");
+        System.out.println("Guerrier ptVie:"+grosBill.getPtVie());
+        System.out.println("Guerrier essaye prendre Epee loin");
         grosBill.prendObjet(sword);
-        System.out.println("Guerrier prend Epee bonne place");
+        System.out.println("Guerrier essaye prendre Epee bonne place");
+        System.out.println("Guerrier degat avant:"+grosBill.getDegAtt());
         grosBill.setPos(new Point2D(10,10));
         grosBill.prendObjet(sword);
+        System.out.println("Guerrier degat:"+grosBill.getDegAtt());
+
 
     }
     public void creerMondeAleaCollections(){
