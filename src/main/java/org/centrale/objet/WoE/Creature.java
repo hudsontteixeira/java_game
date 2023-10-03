@@ -94,6 +94,13 @@ public class Creature {
     /**
      *
      */
+    public void deplaceAncien() {
+        Random random1 = new Random();
+        Random random2 = new Random();
+        int numberRdnx = random1.nextInt(2 + 1) - 1;
+        int numberRdny = random2.nextInt(2 + 1) - 1;
+        pos.translate(numberRdnx,numberRdny);
+    }
     public void deplace(Matrix monde) {
         Random random1 = new Random();
         Random random2 = new Random();

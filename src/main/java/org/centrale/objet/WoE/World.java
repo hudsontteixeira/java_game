@@ -81,13 +81,13 @@ public class World {
         bugs2.setPos(points.get(3));
         System.out.println("Début Robin "+robin.getPos().toString());
         System.out.println("Début Paysan "+peon.getPos().toString());
-        peon.deplace(espaceMatrix);
+        peon.deplaceAncien();
         System.out.println("Deplacement1 Paysan "+peon.getPos().toString());
-        peon.deplace(espaceMatrix);
+        peon.deplaceAncien();
         System.out.println("Deplacement2 Paysan "+peon.getPos().toString());
-        peon.deplace(espaceMatrix);
+        peon.deplaceAncien();
         System.out.println("Deplacement3 Paysan "+peon.getPos().toString());
-        peon.deplace(espaceMatrix);
+        peon.deplaceAncien();
         System.out.println("Deplacement4 Paysan "+peon.getPos().toString());
         System.out.println("Début Lapin1 ");
         bugs1.affiche();
@@ -103,7 +103,7 @@ public class World {
         guillaumeT.affiche();
 
         System.out.println("Deplacement...");
-        robin.deplace(espaceMatrix);
+        robin.deplaceAncien();
 
         System.out.println("Guillaume: ");
         guillaumeT.affiche();
