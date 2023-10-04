@@ -15,7 +15,7 @@ public class Monstre extends Creature{
      * @param ptPar définit une valeur de points défendus pour un monstre lorsqu'il est attaqué par un adversaire
      * @param pageAtt définit une valeur représentant la probabilité que le monstre effectue une attaque
      * @param pagePar définit une valeur représentant la probabilité que le monstre effectue une défense
-     * @param pos définit la position du personnage dans l'espace
+     * @param pos définit la position du monstre dans l'espace
      */
     public Monstre(String nom, int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, Point2D pos) {
         super(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, pos);

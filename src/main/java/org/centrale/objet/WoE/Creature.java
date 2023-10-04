@@ -1,7 +1,11 @@
 package org.centrale.objet.WoE;
 
 import java.util.Random;
-
+/**
+ * Classe de création de creatures
+ * @author LOPEZ TEIXEIRA
+ * @version 1.0
+ */
 public class Creature {
     private String nom;
     private int ptVie;
