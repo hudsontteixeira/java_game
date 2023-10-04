@@ -1,19 +1,37 @@
 package org.centrale.objet.WoE;
 
 import java.util.Random;
-
+/**
+ * Classe de création de Guerrier
+ * @author LOPEZ TEIXEIRA
+ * @version 1.0
+ */
 public class Guerrier extends Personnage {
+    /**
+     * COnstructeur d'un Guerrier
+     * @param nom donne un nom au Guerrier
+     * @param ptVie fixe une valeur initial de points de vie du Guerrier
+     * @param degAtt définit une valeur d'attaque pour le Guerrier qui affectera les points de vie de l'adversaire
+     * @param pageAtt définit une valeur représentant la probabilité que le Guerrier effectue une attaque
+     * @param ptPar définit une valeur de points défendus pour un Guerrier lorsqu'il est attaqué par un adversaire
+     * @param pagePar définit une valeur représentant la probabilité que le Guerrier effectue une défense
+     * @param distAttMax définit la distance maximale autorisée pour une attaque à distance
+     * @param pos définit la position du Guerrier dans l'espace
+     */
     public Guerrier(String nom, int ptVie, int degAtt, int pageAtt, int ptPar, int pagePar, int distAttMax, Point2D pos) {
         super(nom, ptVie, degAtt, pageAtt, ptPar, pagePar, distAttMax, pos);
     }
 
-    public Guerrier(Personnage perso, int distAttMax) {
-        super(perso, distAttMax);
-    }
-
+    /**
+     * Constucteur d'un Guerrier par default
+     */
     public Guerrier(){
     }
 
+    /**
+     * Fonction de combattre corps à corps avec une créature
+     * @param C  c'est la creature avec on va avoir un combatt
+     */
     public void combattre(Creature C){
         if(this.getPos().distance(C.getPos())==1){
             //Dee Attaque
