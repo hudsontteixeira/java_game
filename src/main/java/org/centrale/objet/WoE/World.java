@@ -99,6 +99,7 @@ public class World {
         * */
         System.out.println("Robin: ");
         robin.affiche();
+        System.out.println("Guillaume: ");
         guillaumeT = new Archer(robin,0,0);
         guillaumeT.affiche();
 
