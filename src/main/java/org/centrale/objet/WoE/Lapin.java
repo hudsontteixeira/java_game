@@ -29,7 +29,7 @@ public class Lapin extends Monstre {
 
     /**
      * Constructeur pour copie d'un lapin
-     * @param l
+     * @param l lapin à copier
      */
     public Lapin(Lapin l){
         super(l);

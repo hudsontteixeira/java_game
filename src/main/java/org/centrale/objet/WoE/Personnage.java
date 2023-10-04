@@ -54,7 +54,7 @@ public class Personnage extends Creature {
 
     /**
      * Nous donne la Distance de Attaque Maximale
-     * @return
+     * @return distance d'attaque
      */
     public int getDistAttMax() {
         return distAttMax;
