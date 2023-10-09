@@ -6,7 +6,7 @@ import java.util.Random;
  * @author LOPEZ TEIXEIRA
  * @version 1.0
  */
-public class Guerrier extends Personnage {
+public class Guerrier extends Personnage implements Combattant {
     /**
      * COnstructeur d'un Guerrier
      * @param nom donne un nom au Guerrier

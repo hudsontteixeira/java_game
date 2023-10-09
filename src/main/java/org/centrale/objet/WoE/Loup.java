@@ -6,7 +6,7 @@ import java.util.Random;
  * @author LOPEZ TEIXEIRA
  * @version 1.0
  */
-public class Loup extends Monstre{
+public class Loup extends Monstre implements Combattant{
     /**
      *
      * Créer un nouveau Loup
