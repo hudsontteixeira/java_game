@@ -44,6 +44,9 @@ public class World {
         if(startOption==4){
             this.creerMatrixPosition();
         }
+        if(startOption==5){
+            this.creerCombatMondeAleaException();
+        }
     }
 
     /**
@@ -333,7 +336,56 @@ public class World {
         robin4.deplace(espaceMatrix);
         espaceMatrix.affiche();
     }
+    public void creerCombatMondeAleaException ()  {
+        Archer nulo = null;
 
+        /* NULL POINTER EXCEPTION */
+        try{
+        nulo.getPos();
+        }catch(NullPointerException e){
+            System.out.println("Exception trouvée: "+e.toString());
+        }
+
+        for (int i = 0; i < 3; i++) {
+            creatures.add(new Archer(6));
+        }
+
+        /* INDEX OUT BOUNDS EXCEPTION */
+        try {
+            for (int i = 0; i < 4; i++) {
+                creatures.get(i);
+            }
+        }catch(Exception e){
+            System.out.println("Exception trouvée: "+e.toString());
+        };
+
+        /* ARITHMETIC EXCEPTION */
+        try {
+            int a = 1/0;
+        }catch(ArithmeticException e){
+            System.out.println("Exception trouvée: "+e.toString());
+        };
+
+        /* CLASSCAST EXCEPTION */
+        try {
+            Creature paisano = new Paysan();
+
+            System.out.println(((Monstre)paisano));
+
+        }catch(ClassCastException e){
+            System.out.println("Exception trouvée: "+e.toString());
+        };
+
+        /* NUMBER FORMAT EXCEPTION */
+        try {
+            String mot = "Panadero";
+
+            System.out.println(Integer.parseInt(mot));
+
+        }catch(NumberFormatException e){
+            System.out.println("Exception trouvée: "+e.toString());
+        };
+    }
     /**
      * Fonction pour définir le tour du jeu
      */

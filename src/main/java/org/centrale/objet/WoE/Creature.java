@@ -6,7 +6,7 @@ import java.util.Random;
  * @author LOPEZ TEIXEIRA
  * @version 1.0
  */
-public class Creature {
+public class Creature implements Deplacable {
     private String nom;
     private int ptVie;
     private int degAtt;
@@ -181,6 +181,7 @@ public class Creature {
      * Methòde pour changer la position de une creature dans le monde sans chevauchement.
      * @param monde monde avec les tailles e contraints definit
      */
+    @Override
     public void deplace(Matrix monde) {
         Random random1 = new Random();
         Random random2 = new Random();
