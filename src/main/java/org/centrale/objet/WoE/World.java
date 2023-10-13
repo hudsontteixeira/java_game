@@ -391,19 +391,35 @@ public class World {
     }
 
     public void creerCombatJuable(){
-        taille = 100;
+        taille = 6;
         espaceMatrix = new Matrix(new int[taille][taille]);
         Archer robin1 = new Archer("robin1",100,20,10,80,40,20,new Point2D(0,0),3);
         Jouer fakeplayer = new Jouer(robin1);
+        espaceMatrix.setPositionMatrix(fakeplayer.getPerso().getPos(),1);
         Jouer player1 = new Jouer();
         player1.choosePersonnage();
-        System.out.println(player1.perso.getNom()+" "+player1.perso.getDegAtt());
+        espaceMatrix.setPositionMatrix(player1.getPerso().getPos(),1);
+        espaceMatrix.affiche();
+        while (player1.getPerso().getPtVie()>0) {
+            tourDeJeu(player1,robin1);
+        }
+        espaceMatrix.affiche();
     }
     /**
      * Fonction pour définir le tour du jeu
      */
-    public void tourDeJeu(){
-
+    public void tourDeJeu(Jouer jr, Archer robin){
+    System.out.println("choissisez bouger (1) ou comb (2) ");
+    Scanner sc = new Scanner(System.in);
+    int option = sc.nextInt();
+    if(option==1) {
+        jr.deplace(espaceMatrix);
+        espaceMatrix.affiche();
+    }
+        robin.deplace(espaceMatrix);
+        System.out.println();
+        espaceMatrix.affiche();
+        tourDeJeu(jr,robin);
     }
 
     /**
