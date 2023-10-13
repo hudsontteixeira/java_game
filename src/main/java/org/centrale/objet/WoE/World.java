@@ -30,6 +30,7 @@ public class World {
         System.out.println("Bienvenue dans WoE : Pour tester un monde aléatoire appuyez 1,") ;
         System.out.println("pour générer un monde de combat appuyez 2, pour tester un monde avec de grandes collections et tester leurs performances appuyez 3,");
         System.out.println("pour générer un monde où les personnages ne peuvent pas se chevaucher appuyez 4.");
+        System.out.println("pour atribuire un personnage jouable à un jouer appuyez 6.");
         Scanner sc = new Scanner(System.in);
         int startOption = sc.nextInt();
         if(startOption==1){
@@ -46,6 +47,8 @@ public class World {
         }
         if(startOption==5){
             this.creerCombatMondeAleaException();
+        } if(startOption==6){
+            this.creerCombatJuable();
         }
     }
 
@@ -386,6 +389,16 @@ public class World {
             System.out.println("Exception trouvée: "+e.toString());
         };
     }
+
+    public void creerCombatJuable(){
+        taille = 100;
+        espaceMatrix = new Matrix(new int[taille][taille]);
+        Archer robin1 = new Archer("robin1",100,20,10,80,40,20,new Point2D(0,0),3);
+        Jouer fakeplayer = new Jouer(robin1);
+        Jouer player1 = new Jouer();
+        player1.choosePersonnage();
+        System.out.println(player1.perso.getNom()+" "+player1.perso.getDegAtt());
+    }
     /**
      * Fonction pour définir le tour du jeu
      */
@@ -399,4 +412,5 @@ public class World {
     public void afficheWorld(){
 
     }
+
 }
