@@ -59,7 +59,7 @@ public class Matrix {
     /**
      * Methòde qui affiche notre matrice de monde dans le console
      */
-    public void affiche(Jouer jouer){
+    public void affiche(Jouer jouer, Creature opponent){
         int valueShow = 0;
         for (int i = 0; i < this.espaceMatrix.length; i++) {
             for (int j = 0; j < this.espaceMatrix[i].length; j++) {
@@ -69,6 +69,8 @@ public class Matrix {
                     valueShow = 0;
                 }
                 if(jouer != null && i==jouer.perso.getPos().getX()&& j==jouer.perso.getPos().getY()) {
+                    System.out.print("\u001B[34m"+valueShow+"\u001B[0m" + " ");
+                } else if (opponent != null && i==opponent.getPos().getX()&& j==opponent.getPos().getY()) {
                     System.out.print("\u001B[31m"+valueShow+"\u001B[0m" + " ");
                 } else {
                     System.out.print(valueShow + " ");
