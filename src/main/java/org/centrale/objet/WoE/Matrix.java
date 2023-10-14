@@ -60,11 +60,14 @@ public class Matrix {
     /**
      * Methòde qui affiche notre matrice de monde dans le console
      */
-    public void affiche(){
-
+    public void affiche(Jouer jouer){
         for (int i = 0; i < this.espaceMatrix.length; i++) {
             for (int j = 0; j < this.espaceMatrix[i].length; j++) {
-                System.out.print(this.espaceMatrix[i][j] + " ");
+                if(jouer != null && i==jouer.perso.getPos().getX()&& j==jouer.perso.getPos().getY()) {
+                    System.out.print("\u001B[31m"+this.espaceMatrix[i][j]+"\u001B[0m" + " ");
+                } else {
+                    System.out.print(this.espaceMatrix[i][j] + " ");
+                }
             }
             System.out.println();
         }

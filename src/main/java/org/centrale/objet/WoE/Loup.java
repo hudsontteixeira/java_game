@@ -39,7 +39,7 @@ public class Loup extends Monstre implements Combattant{
      * Fonction de combattre corps à corps avec une créature
      * @param C  c'est la creature avec on va avoir un combatt
      */
-    public void combattre(Creature C){
+    public void combattre(Creature C, Matrix monde){
         if(this.getPos().distance(C.getPos())==1){
             //Dee Attaque
             Random deeAtk = new Random();
@@ -55,18 +55,23 @@ public class Loup extends Monstre implements Combattant{
                     //Défense
                     C.setPtVie(C.getPtVie()-this.getDegAtt());
                     C.setPtVie(C.getPtVie()+C.getPtPar());
+                    System.out.println(C.getNom() + " a reussi la defense et reste avec PtVie:" + C.getPtVie());
                     if(C.getPtVie()<0){
                         C.setPtVie(0);
+                        monde.setPositionMatrix(C.getPos(),0);
+                        C = null;
                     }
-                    System.out.println(C.getNom() + " a reussi la defense et reste avec PtVie:" + C.getPtVie());
 
                 } else{
                     //Sans Défense
                     C.setPtVie(C.getPtVie()-this.getDegAtt());
+                    System.out.println(C.getNom() + " reste avec PtVie:" + C.getPtVie());
                     if(C.getPtVie()<0){
                         C.setPtVie(0);
+                        monde.setPositionMatrix(C.getPos(),0);
+                        C = null;
+
                     }
-                    System.out.println(C.getNom() + " reste avec PtVie:" + C.getPtVie());
                 }
             } else{
                 System.out.println(this.getNom()+" a échoue l'attaque");

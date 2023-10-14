@@ -71,7 +71,7 @@ public class Archer extends Personnage implements Combattant{
      * Fonction de combattre à distance avec une créature
      * @param C c'est la creature avec on va avoir un combatt
      */
-    public void combattre(Creature C){
+    public void combattre(Creature C, Matrix monde){
         //Dee Attaque
         Random deeAtk = new Random();
         int numberdeeAtk = deeAtk.nextInt(100) +1;
@@ -83,10 +83,12 @@ public class Archer extends Personnage implements Combattant{
                     // reussi
                         //Sans Défense
                         C.setPtVie(C.getPtVie()-this.getDegAtt());
-                            if(C.getPtVie()<0){
-                                C.setPtVie(0);
-                            }
                         System.out.println(C.getNom() + "PtVie:" + C.getPtVie());
+                        if(C.getPtVie()<0){
+                            C.setPtVie(0);
+                            monde.setPositionMatrix(C.getPos(),0);
+                            C = null;
+                        }
                 } else{
                     System.out.println(this.getNom()+" a échoue l'attaque");
                 }

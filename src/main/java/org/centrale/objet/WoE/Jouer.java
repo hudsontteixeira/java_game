@@ -5,10 +5,11 @@ import java.util.Scanner;
 
 public class Jouer {
     public Personnage perso;
-
+    public String persoClass;
     public Jouer(Personnage perso) {
         if(perso instanceof Guerrier || perso instanceof Archer ){
             this.perso = perso;
+            this.persoClass = perso.getClass().toString();
         } else {
             System.out.println("choisissez un personnage valabe");
         }
@@ -29,7 +30,7 @@ public class Jouer {
     public void choosePersonnage(){
         System.out.println("Choisir un type de personnage (Archer/Guerrier)");
         Scanner sc = new Scanner(System.in);
-        String persoClass = sc.nextLine();
+        persoClass = sc.nextLine();
         System.out.println("Choisir un nom");
         String persoNom = sc.nextLine();
 
@@ -43,7 +44,7 @@ public class Jouer {
         int numberflArch = random.nextInt(50 - 10) + 10; //max 50 min 10 max
         Point2D point = new Point2D(random.nextInt(6),random.nextInt(6)); //Quelque  point d'une matrice 100X100
 
-        //creation archer avec moins de points de attaque mais plus de precision
+        //creation archer avec plus de points de attaque mais plus de precision
         int numberdegattWarrior = random.nextInt(40 - 20) + 20; //max 40 min 20 fort attaque
         int numberpagattWarrior = random.nextInt(80 - 20) + 20; //max 80 min 20 moyennes chances de reussis (precision)
         int numberptparWarrior = random.nextInt(20 - 10) + 1; //max 20 min 10
@@ -51,17 +52,17 @@ public class Jouer {
         if(persoClass.equals("Guerrier")){
             Guerrier war = new Guerrier(persoNom,100,numberdegattWarrior,numberpagattWarrior,numberptparWarrior,numberpageparWarrior,0,point);
             this.perso = war;
+            this.persoClass = "Guerrier";
         }
         if(persoClass.equals("Archer")){
             Archer arc =  new Archer(persoNom,100,numberdegattArch,numberptparArch,numberpagattArch,numberpageparArch,numberdistArch,point,numberflArch);
             this.perso = arc;
+            this.persoClass = "Archer";
+
         }
     }
 
-    public void deplace(Matrix monde) {
-        System.out.println("Bouger, AWSD");
-        Scanner sc = new Scanner(System.in);
-        String awsd = sc.nextLine();
+    public void deplace(Matrix monde,String awsd) {
         int numberx=0;
         int numbery=0;
         if(awsd.equals("a")){
@@ -82,6 +83,11 @@ public class Jouer {
             this.perso.getPos().translate(numberx, numbery);
             monde.setPositionMatrix(this.perso.getPos(), 1);
 
+        } else{
+            System.out.println("Peut pas y aller");
+            Scanner sc = new Scanner(System.in);
+            String option = sc.nextLine();
+            this.deplace(monde,option);
         }
     }
 }

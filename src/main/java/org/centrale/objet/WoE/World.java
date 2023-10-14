@@ -6,6 +6,8 @@ import java.util.*;
  * @version 1.0
  */
 public class World {
+
+    Jouer player1 = new Jouer();
     ArrayList<Creature> creatures;
     ArrayList<Objet> objets;
     Archer guillaumeT;
@@ -138,22 +140,22 @@ public class World {
         possionMagic = new PotionSoin(new Point2D(11,11),10);
         sword = new Epee(new Point2D(10,10),10);
         System.out.println("Simulation Archer Toue une Bug que c'est dans une dist < 20");
-        robin.combattre(bug1);
-        robin.combattre(bug1);
-        robin.combattre(bug1);
-        robin.combattre(bug1);
+        robin.combattre(bug1,espaceMatrix);
+        robin.combattre(bug1,espaceMatrix);
+        robin.combattre(bug1,espaceMatrix);
+        robin.combattre(bug1,espaceMatrix);
         System.out.println("Simulation Archer Toue une Bug que c'est dans une dist > 20");
         robin.setNbFleches(1);
-        robin.combattre(bug2);
+        robin.combattre(bug2,espaceMatrix);
         System.out.println("Simulation Guerrier Toue une Loup dist=1");
-        grosBill.combattre(wolfie);
-        wolfie.combattre(grosBill);
-        grosBill.combattre(wolfie);
-        wolfie.combattre(grosBill);
-        grosBill.combattre(wolfie);
-        wolfie.combattre(grosBill);
+        grosBill.combattre(wolfie,espaceMatrix);
+        wolfie.combattre(grosBill,espaceMatrix);
+        grosBill.combattre(wolfie,espaceMatrix);
+        wolfie.combattre(grosBill,espaceMatrix);
+        grosBill.combattre(wolfie,espaceMatrix);
+        wolfie.combattre(grosBill,espaceMatrix);
         System.out.println("Simulation Guerrier Toue une Loup dist!=1");
-        grosBill.combattre(wolfie2);
+        grosBill.combattre(wolfie2,espaceMatrix);
         System.out.println("Guerrier essaie prendre potion loin");
         grosBill.prendObjet(possionMagic);
         System.out.println("Guerrier essaie prendre potion bonne place");
@@ -175,7 +177,7 @@ public class World {
      * Fonction pour créer un monde avec plusieurs personnages pour faire des essaies de performance
      */
     public void creerMondeAleaCollections(){
-        taille = 50;
+        taille = 60;
         Random random = new Random();
         //int nbArcher =  random.nextInt(20) + 1;
         //int nbPaysan =  random.nextInt(20) + 1;
@@ -294,7 +296,71 @@ public class World {
         System.out.println(timeH-timeG);
         System.out.println(TotalVie4);
     }
+    public void AddAleaCollections(){
+        taille = 9;
+        Random random = new Random();
+        //creation archer avec moins de points de attaque mais plus de precision
+        int numberdegattArch = random.nextInt(20 - 10) + 10; //max 20 min 10 faible attaque
+        int numberpagattArch = random.nextInt(100 - 60) + 60; //max 100 min 60 bones chances de reussis (precision)
+        int numberptparArch = random.nextInt(15 - 1) + 1; //max 15 min 1
+        int numberpageparArch = random.nextInt(40 - 10) + 10; //max 10 min 1 faible chance de defense
+        int numberdistArch = random.nextInt(20 - 10) + 10; //max 20 min 10 max
+        int numberflArch = random.nextInt(50 - 10) + 10; //max 50 min 10 max
 
+        //creation archer avec plus de points de attaque mais plus de precision
+        int numberdegattWarrior = random.nextInt(40 - 20) + 20; //max 40 min 20 fort attaque
+        int numberpagattWarrior = random.nextInt(80 - 20) + 20; //max 80 min 20 moyennes chances de reussis (precision)
+        int numberptparWarrior = random.nextInt(20 - 10) + 1; //max 20 min 10
+        int numberpageparWarrior = random.nextInt(70 - 50) + 50; //max 70 min 50 bonne chance de defense
+
+        int nbArcher =  19;
+        int nbPaysan =  1;
+        int nbLapin =  1;
+        int nbGuerrier =  14;
+        int nbLoup =  20;
+
+        /*
+        CREATION DE CREATURES
+        * */
+
+        for (int i = 0; i < nbArcher; i++) {
+            creatures.add(new Archer("Arqueiro",100,numberdegattArch,numberptparArch,numberpagattArch,numberpageparArch,numberdistArch,new Point2D(),numberflArch));
+        }
+        for (int i = 0; i < nbPaysan; i++) {
+            creatures.add(new Paysan("Paisano", 100, 0, 0, 0, 0, 0, new Point2D()));
+        }
+        for (int i = 0; i < nbLapin; i++) {
+            creatures.add(new Lapin("Lapin",100,0,0,0,0,new Point2D()));
+        }
+        for (int i = 0; i < nbGuerrier; i++) {
+            creatures.add(new Guerrier("Guerreiro",100,numberdegattWarrior,numberpagattWarrior,numberptparWarrior,numberpageparWarrior,0,new Point2D()));
+        }
+        for (int i = 0; i < nbLoup; i++) {
+            creatures.add(new Loup("Loup", random.nextInt(100), 0, 0, 0, 0, new Point2D()));
+        }
+
+        //CREATION DE POINTS
+        ArrayList<Point2D> points = new ArrayList<>();
+        boolean  different = true;
+        while(points.size()<creatures.size()){
+            Point2D point = new Point2D(random.nextInt(taille), random.nextInt(taille));
+            different = true;
+            for(Point2D p: points){
+                if(p.x == point.x && p.y == point.y){
+                    different = false;
+                    break;
+                }
+            }
+            if(different) {
+                points.add(point);
+            }
+        }
+        for (int i=0; i<creatures.size(); i++){
+           creatures.get(i).setPos(points.get(i));
+           espaceMatrix.setPositionMatrix(points.get(i),1);
+        }
+
+    }
     /**
      * Fonction permettant de créer un jeu avec une matrice qui stocke la position des créatures
      */
@@ -310,34 +376,34 @@ public class World {
         espaceMatrix.setPositionMatrix(robin2.getPos(),1);
         espaceMatrix.setPositionMatrix(robin3.getPos(),1);
         espaceMatrix.setPositionMatrix(robin4.getPos(),1);
-        espaceMatrix.affiche();
+        espaceMatrix.affiche(player1);
         System.out.println();
         robin4.deplace(espaceMatrix);
-        espaceMatrix.affiche();
+        espaceMatrix.affiche(player1);
         System.out.println();
         robin4.deplace(espaceMatrix);
-        espaceMatrix.affiche();
+        espaceMatrix.affiche(player1);
         System.out.println();
         robin4.deplace(espaceMatrix);
-        espaceMatrix.affiche();
+        espaceMatrix.affiche(player1);
         System.out.println();
         robin4.deplace(espaceMatrix);
-        espaceMatrix.affiche();
+        espaceMatrix.affiche(player1);
         System.out.println();
         robin4.deplace(espaceMatrix);
-        espaceMatrix.affiche();
+        espaceMatrix.affiche(player1);
         System.out.println();
         robin4.deplace(espaceMatrix);
-        espaceMatrix.affiche();
+        espaceMatrix.affiche(player1);
         System.out.println();
         robin4.deplace(espaceMatrix);
-        espaceMatrix.affiche();
+        espaceMatrix.affiche(player1);
         System.out.println();
         robin4.deplace(espaceMatrix);
-        espaceMatrix.affiche();
+        espaceMatrix.affiche(player1);
         System.out.println();
         robin4.deplace(espaceMatrix);
-        espaceMatrix.affiche();
+        espaceMatrix.affiche(player1);
     }
     public void creerCombatMondeAleaException ()  {
         Archer nulo = null;
@@ -391,35 +457,53 @@ public class World {
     }
 
     public void creerCombatJuable(){
-        taille = 6;
+        taille = 9;
         espaceMatrix = new Matrix(new int[taille][taille]);
         Archer robin1 = new Archer("robin1",100,20,10,80,40,20,new Point2D(0,0),3);
         Jouer fakeplayer = new Jouer(robin1);
+        AddAleaCollections();
         espaceMatrix.setPositionMatrix(fakeplayer.getPerso().getPos(),1);
-        Jouer player1 = new Jouer();
         player1.choosePersonnage();
         espaceMatrix.setPositionMatrix(player1.getPerso().getPos(),1);
-        espaceMatrix.affiche();
-        while (player1.getPerso().getPtVie()>0) {
-            tourDeJeu(player1,robin1);
+        espaceMatrix.affiche(player1);
+        while (player1.perso.getPtVie()>0) {
+            tourDeJeu(player1);
+            if (player1.perso.getPtVie() == 0) {
+                System.out.println("Fin de Jeu tu as perdu");
+            }
         }
-        espaceMatrix.affiche();
+
     }
     /**
      * Fonction pour définir le tour du jeu
      */
-    public void tourDeJeu(Jouer jr, Archer robin){
-    System.out.println("choissisez bouger (1) ou comb (2) ");
-    Scanner sc = new Scanner(System.in);
-    int option = sc.nextInt();
-    if(option==1) {
-        jr.deplace(espaceMatrix);
-        espaceMatrix.affiche();
-    }
-        robin.deplace(espaceMatrix);
-        System.out.println();
-        espaceMatrix.affiche();
-        tourDeJeu(jr,robin);
+    public void tourDeJeu(Jouer jr){
+            System.out.println("AWSD pour boger ou Q pour attaquer");
+            Scanner sc = new Scanner(System.in);
+            String option = sc.nextLine();
+
+            if (option.equals("a") || option.equals("w") || option.equals("s") || option.equals("d")) {
+                jr.deplace(espaceMatrix,option);
+                espaceMatrix.affiche(player1);
+            } else if (option.equals("q")) {
+                Random random1 = new Random();
+                int numberRdnx = random1.nextInt(2 + 1) - 1;
+                int numberRdny = random1.nextInt(2 + 1) - 1;
+                Point2D AtackPoint = new Point2D(jr.perso.getPos().getX()+numberRdnx,jr.perso.getPos().getX()+numberRdny);
+                if(espaceMatrix.getPositionMatrix(AtackPoint)==1){
+                    if (jr.persoClass == "Guerrier") {
+                        Guerrier Warrior = (Guerrier) jr.perso;
+                        Warrior.combattre(creatures.get(10),espaceMatrix);
+                    }
+                    if (jr.persoClass == "Archer") {
+                        Archer Archer = (Archer) jr.perso;
+                        Archer.combattre(creatures.get(10),espaceMatrix);
+                    }
+                }
+            }
+            System.out.println();
+            espaceMatrix.affiche(player1);
+            tourDeJeu(jr);
     }
 
     /**
