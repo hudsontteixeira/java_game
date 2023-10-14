@@ -33,7 +33,8 @@ public class Guerrier extends Personnage implements Combattant {
      * @param C  c'est la creature avec on va avoir un combatt
      */
     public void combattre(Creature C, Matrix monde){
-        if(this.getPos().distance(C.getPos())==1){
+        //using 1.414 as racine 2
+        if(this.getPos().distance(C.getPos())<=1.414){
             //Dee Attaque
             Random deeAtk = new Random();
             int numberdeeAtk = deeAtk.nextInt(100) +1;
