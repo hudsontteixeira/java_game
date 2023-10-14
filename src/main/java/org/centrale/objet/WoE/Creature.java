@@ -6,7 +6,7 @@ import java.util.Random;
  * @author LOPEZ TEIXEIRA
  * @version 1.0
  */
-public class Creature implements Deplacable {
+public class Creature extends ElementDeJeu implements Deplacable {
     private String nom;
     private int ptVie;
     private int degAtt;
@@ -187,16 +187,16 @@ public class Creature implements Deplacable {
         Random random2 = new Random();
         int numberRdnx = random1.nextInt(2 + 1) - 1;
         int numberRdny = random2.nextInt(2 + 1) - 1;
-        while (monde.getPositionMatrix(new Point2D(pos.getX()+numberRdnx,pos.getY()+numberRdny))==1){
+        while (monde.getPositionMatrix(new Point2D(pos.getX()+numberRdnx,pos.getY()+numberRdny))!=null){
             random1 = new Random();
             random2 = new Random();
             numberRdnx = random1.nextInt(2 + 1) - 1;
             numberRdny = random2.nextInt(2 + 1) - 1;
         }
-        if(monde.getPositionMatrix(new Point2D(pos.getX()+numberRdnx,pos.getY()+numberRdny))==0){
-                monde.setPositionMatrix(pos, 0);
+        if(monde.getPositionMatrix(new Point2D(pos.getX()+numberRdnx,pos.getY()+numberRdny))==null){
+                monde.setPositionMatrix(pos, this);
                 pos.translate(numberRdnx, numberRdny);
-                monde.setPositionMatrix(pos, 1);
+                monde.setPositionMatrix(pos, this);
 
         }
     }

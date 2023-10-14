@@ -78,10 +78,10 @@ public class Jouer {
             numberx=-1;
             numbery=0;
         }
-        if(monde.getPositionMatrix(new Point2D(this.perso.getPos().getX()+numberx,this.perso.getPos().getY()+numbery))==0){
-            monde.setPositionMatrix(this.perso.getPos(), 0);
+        if(monde.getPositionMatrix(new Point2D(this.perso.getPos().getX()+numberx,this.perso.getPos().getY()+numbery))==null){
+            monde.setPositionMatrix(this.perso.getPos(), null);
             this.perso.getPos().translate(numberx, numbery);
-            monde.setPositionMatrix(this.perso.getPos(), 1);
+            monde.setPositionMatrix(this.perso.getPos(), this.perso);
 
         } else{
             System.out.println("Peut pas y aller");

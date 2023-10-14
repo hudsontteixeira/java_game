@@ -58,7 +58,7 @@ public class Loup extends Monstre implements Combattant{
                     System.out.println(C.getNom() + " a reussi la defense et reste avec PtVie:" + C.getPtVie());
                     if(C.getPtVie()<0){
                         C.setPtVie(0);
-                        monde.setPositionMatrix(C.getPos(),0);
+                        monde.setPositionMatrix(C.getPos(),null);
                         C = null;
                     }
 
@@ -68,7 +68,7 @@ public class Loup extends Monstre implements Combattant{
                     System.out.println(C.getNom() + " reste avec PtVie:" + C.getPtVie());
                     if(C.getPtVie()<0){
                         C.setPtVie(0);
-                        monde.setPositionMatrix(C.getPos(),0);
+                        monde.setPositionMatrix(C.getPos(),null);
                         C = null;
 
                     }

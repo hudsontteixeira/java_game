@@ -4,8 +4,7 @@ package org.centrale.objet.WoE;
  * @author LOPEZ TEIXEIRA
  * @version 1.0
  */
-public class Objet {
-
+public class Objet extends ElementDeJeu {
     private Point2D pos;
 
     /**

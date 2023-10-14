@@ -357,7 +357,7 @@ public class World {
         }
         for (int i=0; i<creatures.size(); i++){
            creatures.get(i).setPos(points.get(i));
-           espaceMatrix.setPositionMatrix(points.get(i),1);
+           espaceMatrix.setPositionMatrix(points.get(i),creatures.get(i));
         }
 
     }
@@ -366,16 +366,16 @@ public class World {
      */
     public void creerMatrixPosition(){
         taille = 3;
-        espaceMatrix = new Matrix(new int[taille][taille]);
+        espaceMatrix = new Matrix(new ElementDeJeu[taille][taille]);
         Archer robin1 = new Archer("robin1",100,20,10,80,40,20,new Point2D(0,0),3);
         Archer robin2 = new Archer("robin2",100,20,10,80,40,20,new Point2D(0,1),3);
         Archer robin3 = new Archer("robin3",100,20,10,80,40,20,new Point2D(1,2),3);
         Archer robin4 = new Archer("robin3",100,20,10,80,40,20,new Point2D(1,1),3);
 
-        espaceMatrix.setPositionMatrix(robin1.getPos(),1);
-        espaceMatrix.setPositionMatrix(robin2.getPos(),1);
-        espaceMatrix.setPositionMatrix(robin3.getPos(),1);
-        espaceMatrix.setPositionMatrix(robin4.getPos(),1);
+        espaceMatrix.setPositionMatrix(robin1.getPos(),robin1);
+        espaceMatrix.setPositionMatrix(robin2.getPos(),robin2);
+        espaceMatrix.setPositionMatrix(robin3.getPos(),robin3);
+        espaceMatrix.setPositionMatrix(robin4.getPos(),robin4);
         espaceMatrix.affiche(player1);
         System.out.println();
         robin4.deplace(espaceMatrix);
@@ -458,13 +458,13 @@ public class World {
 
     public void creerCombatJuable(){
         taille = 9;
-        espaceMatrix = new Matrix(new int[taille][taille]);
+        espaceMatrix = new Matrix(new ElementDeJeu[taille][taille]);
         Archer robin1 = new Archer("robin1",100,20,10,80,40,20,new Point2D(0,0),3);
         Jouer fakeplayer = new Jouer(robin1);
         AddAleaCollections();
-        espaceMatrix.setPositionMatrix(fakeplayer.getPerso().getPos(),1);
+        espaceMatrix.setPositionMatrix(fakeplayer.getPerso().getPos(),fakeplayer.perso);
         player1.choosePersonnage();
-        espaceMatrix.setPositionMatrix(player1.getPerso().getPos(),1);
+        espaceMatrix.setPositionMatrix(player1.getPerso().getPos(),player1.perso);
         espaceMatrix.affiche(player1);
         while (player1.perso.getPtVie()>0) {
             tourDeJeu(player1);
@@ -490,7 +490,7 @@ public class World {
                 int numberRdnx = random1.nextInt(2 + 1) - 1;
                 int numberRdny = random1.nextInt(2 + 1) - 1;
                 Point2D AtackPoint = new Point2D(jr.perso.getPos().getX()+numberRdnx,jr.perso.getPos().getX()+numberRdny);
-                if(espaceMatrix.getPositionMatrix(AtackPoint)==1){
+                if(espaceMatrix.getPositionMatrix(AtackPoint)!=null){
                     if (jr.persoClass == "Guerrier") {
                         Guerrier Warrior = (Guerrier) jr.perso;
                         Warrior.combattre(creatures.get(10),espaceMatrix);

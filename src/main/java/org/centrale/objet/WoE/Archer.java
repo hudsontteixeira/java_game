@@ -86,7 +86,7 @@ public class Archer extends Personnage implements Combattant{
                         System.out.println(C.getNom() + "PtVie:" + C.getPtVie());
                         if(C.getPtVie()<0){
                             C.setPtVie(0);
-                            monde.setPositionMatrix(C.getPos(),0);
+                            monde.setPositionMatrix(C.getPos(),null);
                             C = null;
                         }
                 } else{

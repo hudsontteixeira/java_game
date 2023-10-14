@@ -5,13 +5,13 @@ package org.centrale.objet.WoE;
  * @version 1.0
  */
 public class Matrix {
-    private int[][] espaceMatrix;
+    private ElementDeJeu[][] espaceMatrix;
 
     /**
      * Getter pour une matrice d'espace
      * @return la matrice d'espace
      */
-    public int[][] getEspaceMatrix() {
+    public ElementDeJeu[][] getEspaceMatrix() {
         return espaceMatrix;
     }
 
@@ -19,7 +19,7 @@ public class Matrix {
      * Constructeur de notre matrice du monde
      * @param espaceMatrix matrice du monde
      */
-    public Matrix(int[][] espaceMatrix) {
+    public Matrix(ElementDeJeu[][] espaceMatrix) {
         this.espaceMatrix = espaceMatrix;
     }
 
@@ -27,46 +27,51 @@ public class Matrix {
      * Methóde pour changer la matrice du monde
      * @param espaceMatrix matrice du monde à changer
      */
-    public void setEspaceMatrix(int[][] espaceMatrix) {
+    public void setEspaceMatrix(ElementDeJeu[][] espaceMatrix) {
         this.espaceMatrix = espaceMatrix;
     }
 
     /**
      * Methòde pour savoir si une espace est libre (0) ou non dans une matrice (1)
      * @param point point de localisation dans la matrice
-     * @return 1 si est occupé, 0 si non
+     * @return ElementDeJeu
      */
-    public int getPositionMatrix(Point2D point) {
+    public ElementDeJeu getPositionMatrix(Point2D point) {
         if(point.getX()>=0&&point.getY()>=0&&point.getX()<this.espaceMatrix[0].length&&point.getY()<this.espaceMatrix.length){
-            return espaceMatrix[point.getX()][point.getY()];
+            return espaceMatrix[point.getX()][point.getY()]; //object in the place
         } else{
-            return 1;
+            return null;
         }
     }
 
     /**
      * ethòde pour changer dans la matrice si une espace est libre (0) ou non (1)
      * @param point point a changer
-     * @param etat nouveau etat, 0 ou 1
+     * @param elem nouveau etat, ElementDeJeu OU NULL
      */
-    public void setPositionMatrix(Point2D point,int etat){
+    public void setPositionMatrix(Point2D point, ElementDeJeu elem){
             if(point.getX()>=0&&point.getY()>=0&&point.getX()<=this.espaceMatrix[0].length&&point.getY()<=this.espaceMatrix.length){
-                espaceMatrix [point.getX()][point.getY()] = etat;
+                espaceMatrix [point.getX()][point.getY()] = elem;
             } else{
                 System.out.println("Out of borders");
             }
     }
-
     /**
      * Methòde qui affiche notre matrice de monde dans le console
      */
     public void affiche(Jouer jouer){
+        int valueShow = 0;
         for (int i = 0; i < this.espaceMatrix.length; i++) {
             for (int j = 0; j < this.espaceMatrix[i].length; j++) {
-                if(jouer != null && i==jouer.perso.getPos().getX()&& j==jouer.perso.getPos().getY()) {
-                    System.out.print("\u001B[31m"+this.espaceMatrix[i][j]+"\u001B[0m" + " ");
+                if(this.espaceMatrix[i][j] != null){
+                    valueShow = 1;
                 } else {
-                    System.out.print(this.espaceMatrix[i][j] + " ");
+                    valueShow = 0;
+                }
+                if(jouer != null && i==jouer.perso.getPos().getX()&& j==jouer.perso.getPos().getY()) {
+                    System.out.print("\u001B[31m"+valueShow+"\u001B[0m" + " ");
+                } else {
+                    System.out.print(valueShow + " ");
                 }
             }
             System.out.println();
