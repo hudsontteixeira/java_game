@@ -1,5 +1,6 @@
 package org.centrale.objet.WoE;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -43,7 +44,7 @@ public class Jouer {
         int numberdistArch = random.nextInt(20 - 10) + 10; //max 20 min 10 max
         int numberflArch = random.nextInt(50 - 10) + 10; //max 50 min 10 max
         Point2D point = new Point2D(random.nextInt(3),random.nextInt(3)); //Quelque  point d'une matrice 100X100
-
+        ArrayList<Objet> inventaire = new ArrayList<>();
         //creation archer avec plus de points de attaque mais plus de precision
         int numberdegattWarrior = random.nextInt(40 - 20) + 20; //max 40 min 20 fort attaque
         int numberpagattWarrior = random.nextInt(80 - 20) + 20; //max 80 min 20 moyennes chances de reussis (precision)
@@ -53,12 +54,13 @@ public class Jouer {
             Guerrier war = new Guerrier(persoNom,100,numberdegattWarrior,numberpagattWarrior,numberptparWarrior,numberpageparWarrior,0,point);
             this.perso = war;
             this.persoClass = "Guerrier";
+            this.perso.setInventaire(inventaire);
         }
         if(persoClass.equals("Archer")){
             Archer arc =  new Archer(persoNom,100,numberdegattArch,numberptparArch,numberpagattArch,numberpageparArch,numberdistArch,point,numberflArch);
             this.perso = arc;
             this.persoClass = "Archer";
-
+            this.perso.setInventaire(inventaire);
         }
     }
 

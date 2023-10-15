@@ -510,10 +510,11 @@ public class World {
         String option;
         Random random1 = new Random();
         if(recursive == null) {
-                System.out.println("AWSD pour boger ou Q pour attaquer");
+                System.out.println("awsd pour boger ou q pour attaquer, i inventory and p prendre objet");
                 Scanner sc = new Scanner(System.in);
                 option = sc.nextLine();
-            } else {
+            }
+        else {
                 option = recursive;
             }
 
@@ -607,25 +608,37 @@ public class World {
                 //prend Objet
                 int numberRdnx = random1.nextInt(1 + 1) - 1;
                 int numberRdny = random1.nextInt(1 + 1) - 1;
-                numberRdnx = random1.nextInt(((jr.perso).getDistAttMax()-1) + ((jr.perso).getDistAttMax()-1) ) - ((jr.perso).getDistAttMax()-1);
-                numberRdny = random1.nextInt(((jr.perso).getDistAttMax()-1) + ((jr.perso).getDistAttMax()-1) ) - ((jr.perso).getDistAttMax()-1);
                 Point2D ObjetPoint = new Point2D(jr.perso.getPos().getX()+numberRdnx,jr.perso.getPos().getX()+numberRdny);
-                if(espaceMatrix.getPositionMatrix(ObjetPoint)!=null && espaceMatrix.getPositionMatrix(ObjetPoint) instanceof Objet){
+                if(espaceMatrix.getPositionMatrix(ObjetPoint)!=null){
                     jr.perso.prendObjet((Objet)espaceMatrix.getPositionMatrix(ObjetPoint),espaceMatrix);
                 } else {
                     tourDeJeu(jr,null,"p");
                 }
-            } else{
+            }
+            else if(option.equals("i")){
+               if(!jr.perso.getInventaire().isEmpty()){
+                    for (int i = 0; i<jr.perso.getInventaire().size(); i++){
+                     System.out.println("Selectione "+ i + "pour utiliser le" + jr.perso.getInventaire().get(i).getClass().getSimpleName());
+                    }
+                    Scanner scan = new Scanner(System.in);
+                    int inventairenumber = scan.nextInt();
+                  //uses first objet
+                  jr.perso.utiliserObjet((Objet)jr.perso.getInventaire().get(inventairenumber));
+
+               }  else{
+                   System.out.println("Inventory Vide");
+               }
+            }else{
                 System.out.println("Appueyr sur un valeur valide");
             }
             //nuage allways try to kill and moove randonly
-            nuageToxique.deplace(espaceMatrix);
-            int numberRdnx = random1.nextInt(1 + 1) - 1;
-            int numberRdny = random1.nextInt(1 + 1) - 1;
-            Point2D AtackPoint = new Point2D(nuageToxique.getPos().getX()+numberRdnx,nuageToxique.getPos().getX()+numberRdny);
-            if(espaceMatrix.getPositionMatrix(AtackPoint)!=null && espaceMatrix.getPositionMatrix(AtackPoint) instanceof Creature ) {
-                nuageToxique.combattre((Creature)espaceMatrix.getPositionMatrix(AtackPoint), espaceMatrix);
-            }
+            //nuageToxique.deplace(espaceMatrix);
+            //int numberRdnx = random1.nextInt(1 + 1) - 1;
+            //int numberRdny = random1.nextInt(1 + 1) - 1;
+            //Point2D AtackPoint = new Point2D(nuageToxique.getPos().getX()+numberRdnx,nuageToxique.getPos().getX()+numberRdny);
+            //if(espaceMatrix.getPositionMatrix(AtackPoint)!=null && espaceMatrix.getPositionMatrix(AtackPoint) instanceof Creature ) {
+             //   nuageToxique.combattre((Creature)espaceMatrix.getPositionMatrix(AtackPoint), espaceMatrix);
+            //}
             //refresh
             System.out.println();
             espaceMatrix.affiche(player1,previousElemJeu);
