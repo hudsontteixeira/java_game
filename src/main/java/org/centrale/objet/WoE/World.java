@@ -9,6 +9,8 @@ public class World {
 
     Jouer player1 = new Jouer();
     ArrayList<Creature> creatures;
+    ArrayList<ElementDeJeu> eleJeu;
+
     ArrayList<Objet> objets;
     Archer guillaumeT;
     Archer robin;
@@ -59,6 +61,8 @@ public class World {
      */
     public World() {
         this.creatures = new ArrayList<Creature>();
+            this.eleJeu = new ArrayList<ElementDeJeu>();
+
     }
 
     /**
@@ -157,17 +161,17 @@ public class World {
         System.out.println("Simulation Guerrier Toue une Loup dist!=1");
         grosBill.combattre(wolfie2,espaceMatrix);
         System.out.println("Guerrier essaie prendre potion loin");
-        grosBill.prendObjet(possionMagic);
+        grosBill.prendObjet(possionMagic,espaceMatrix);
         System.out.println("Guerrier essaie prendre potion bonne place");
         grosBill.setPos(new Point2D(11,11));
-        grosBill.prendObjet(possionMagic);
+        grosBill.prendObjet(possionMagic,espaceMatrix);
         System.out.println("Guerrier ptVie:"+grosBill.getPtVie());
         System.out.println("Guerrier essaie prendre Epee loin");
-        grosBill.prendObjet(sword);
+        grosBill.prendObjet(sword,espaceMatrix);
         System.out.println("Guerrier essaie prendre Epee bonne place");
         System.out.println("Guerrier degat avant:"+grosBill.getDegAtt());
         grosBill.setPos(new Point2D(10,10));
-        grosBill.prendObjet(sword);
+        grosBill.prendObjet(sword,espaceMatrix);
         System.out.println("Guerrier degat:"+grosBill.getDegAtt());
 
 
@@ -313,36 +317,38 @@ public class World {
         int numberptparWarrior = random.nextInt(20 - 10) + 1; //max 20 min 10
         int numberpageparWarrior = random.nextInt(70 - 50) + 50; //max 70 min 50 bonne chance de defense
 
-        int nbArcher =  19;
+        int nbArcher =  1;
         int nbPaysan =  1;
         int nbLapin =  1;
-        int nbGuerrier =  14;
-        int nbLoup =  20;
+        int nbGuerrier =  1;
+        int nbLoup =  2;
 
         /*
-        CREATION DE CREATURES
+        CREATION D'ITENS
         * */
 
         for (int i = 0; i < nbArcher; i++) {
-            creatures.add(new Archer("Arqueiro",100,numberdegattArch,numberptparArch,numberpagattArch,numberpageparArch,numberdistArch,new Point2D(),numberflArch));
+            eleJeu.add(new Archer("Arqueiro",100,numberdegattArch,numberptparArch,numberpagattArch,numberpageparArch,numberdistArch,new Point2D(),numberflArch));
         }
         for (int i = 0; i < nbPaysan; i++) {
-            creatures.add(new Paysan("Paisano", 100, 0, 0, 0, 0, 0, new Point2D()));
+            eleJeu.add(new Paysan("Paisano", 100, 0, 0, 0, 0, 0, new Point2D()));
         }
         for (int i = 0; i < nbLapin; i++) {
-            creatures.add(new Lapin("Lapin",100,0,0,0,0,new Point2D()));
+            eleJeu.add(new Lapin("Lapin",100,0,0,0,0,new Point2D()));
         }
         for (int i = 0; i < nbGuerrier; i++) {
-            creatures.add(new Guerrier("Guerreiro",100,numberdegattWarrior,numberpagattWarrior,numberptparWarrior,numberpageparWarrior,0,new Point2D()));
+            eleJeu.add(new Guerrier("Guerreiro",100,numberdegattWarrior,numberpagattWarrior,numberptparWarrior,numberpageparWarrior,0,new Point2D()));
         }
         for (int i = 0; i < nbLoup; i++) {
-            creatures.add(new Loup("Loup", random.nextInt(100), 0, 0, 0, 0, new Point2D()));
+            eleJeu.add(new Loup("Loup", random.nextInt(100), 0, 0, 0, 0, new Point2D()));
         }
+        eleJeu.add(new PotionSoin(new Point2D(),10));
+        eleJeu.add(new PotionSoin(new Point2D(),10));
 
         //CREATION DE POINTS
         ArrayList<Point2D> points = new ArrayList<>();
         boolean  different = true;
-        while(points.size()<creatures.size()){
+        while(points.size()<eleJeu.size()){
             Point2D point = new Point2D(random.nextInt(taille), random.nextInt(taille));
             different = true;
             for(Point2D p: points){
@@ -355,9 +361,14 @@ public class World {
                 points.add(point);
             }
         }
-        for (int i=0; i<creatures.size(); i++){
-           creatures.get(i).setPos(points.get(i));
-           espaceMatrix.setPositionMatrix(points.get(i),creatures.get(i));
+        for (int i=0; i<eleJeu.size(); i++){
+            if(eleJeu.get(i) instanceof Creature) {
+                ((Creature)eleJeu.get(i)).setPos(points.get(i));
+            }
+            if(eleJeu.get(i) instanceof Objet) {
+                ((Objet)eleJeu.get(i)).setPos(points.get(i));
+            }
+           espaceMatrix.setPositionMatrix(points.get(i),eleJeu.get(i));
         }
 
     }
@@ -461,14 +472,14 @@ public class World {
         espaceMatrix = new Matrix(new ElementDeJeu[taille][taille]);
         Archer robin1 = new Archer("robin1",100,20,10,80,40,20,new Point2D(0,0),3);
         Jouer fakeplayer = new Jouer(robin1);
-        Creature previousFight = null;
+        Creature previousElemJeu = null;
         AddAleaCollections();
         espaceMatrix.setPositionMatrix(fakeplayer.getPerso().getPos(),fakeplayer.perso);
         player1.choosePersonnage();
         espaceMatrix.setPositionMatrix(player1.getPerso().getPos(),player1.perso);
         espaceMatrix.affiche(player1,null);
         while (player1.perso.getPtVie()>0) {
-            tourDeJeu(player1,previousFight);
+            tourDeJeu(player1,previousElemJeu,null);
             if (player1.perso.getPtVie() <= 0) {
                 System.out.println("Fin de Jeu tu as perdu");
                 break;
@@ -479,16 +490,23 @@ public class World {
     /**
      * Fonction pour définir le tour du jeu
      */
-    public void tourDeJeu(Jouer jr, Creature previousFight){
-            System.out.println("AWSD pour boger ou Q pour attaquer");
-            Scanner sc = new Scanner(System.in);
-            String option = sc.nextLine();
+    public void tourDeJeu(Jouer jr, Creature previousElemJeu, String recursive){
+        String option;
+            if(recursive == null) {
+                System.out.println("AWSD pour boger ou Q pour attaquer");
+                Scanner sc = new Scanner(System.in);
+                option = sc.nextLine();
+            } else {
+                option = recursive;
+            }
+
 
             if (option.equals("a") || option.equals("w") || option.equals("s") || option.equals("d")) {
                 jr.deplace(espaceMatrix,option);
                 espaceMatrix.affiche(player1,null);
-                previousFight = null;
-            } else if (option.equals("q")) {
+                previousElemJeu = null;
+            }
+            else if (option.equals("q")) {
                 Random random1 = new Random();
                 int numberRdnx = random1.nextInt(1 + 1) - 1;
                 int numberRdny = random1.nextInt(1 + 1) - 1;
@@ -499,75 +517,95 @@ public class World {
                 Point2D AtackPoint = new Point2D(jr.perso.getPos().getX()+numberRdnx,jr.perso.getPos().getX()+numberRdny);
 
                     //start new fight
-                    if (previousFight == null) {
-                        if(espaceMatrix.getPositionMatrix(AtackPoint)!=null) {
+                    if (previousElemJeu == null) {
+                        if(espaceMatrix.getPositionMatrix(AtackPoint)!=null && espaceMatrix.getPositionMatrix(AtackPoint) instanceof Creature ) {
                             if (jr.persoClass == "Guerrier") {
                                 Guerrier Warrior = (Guerrier) jr.perso;
                                 Warrior.combattre((Creature) espaceMatrix.getPositionMatrix(AtackPoint), espaceMatrix);
-                                previousFight = (Creature) espaceMatrix.getPositionMatrix(AtackPoint);
-                                if(previousFight instanceof Loup){
-                                    ((Loup) previousFight).combattre(jr.perso,espaceMatrix);
+                                previousElemJeu = (Creature) espaceMatrix.getPositionMatrix(AtackPoint);
+                                if(previousElemJeu instanceof Loup){
+                                    ((Loup) previousElemJeu).combattre(jr.perso,espaceMatrix);
                                 }
-                                if(previousFight instanceof Archer){
-                                    ((Archer) previousFight).combattre(jr.perso,espaceMatrix);
+                                if(previousElemJeu instanceof Archer){
+                                    ((Archer) previousElemJeu).combattre(jr.perso,espaceMatrix);
                                 }
-                                if(previousFight instanceof Guerrier){
-                                    ((Guerrier) previousFight).combattre(jr.perso,espaceMatrix);
+                                if(previousElemJeu instanceof Guerrier){
+                                    ((Guerrier) previousElemJeu).combattre(jr.perso,espaceMatrix);
                                 }
                             }
                             if (jr.persoClass == "Archer") {
                                 Archer Archer = (Archer) jr.perso;
                                 Archer.combattre((Creature) espaceMatrix.getPositionMatrix(AtackPoint), espaceMatrix);
-                                previousFight = (Creature) espaceMatrix.getPositionMatrix(AtackPoint);
-                                if(previousFight instanceof Loup){
-                                    ((Loup) previousFight).combattre(jr.perso,espaceMatrix);
+                                previousElemJeu = (Creature) espaceMatrix.getPositionMatrix(AtackPoint);
+                                if(previousElemJeu instanceof Loup){
+                                    ((Loup) previousElemJeu).combattre(jr.perso,espaceMatrix);
                                 }
-                                if(previousFight instanceof Archer){
-                                    ((Archer) previousFight).combattre(jr.perso,espaceMatrix);
+                                if(previousElemJeu instanceof Archer){
+                                    ((Archer) previousElemJeu).combattre(jr.perso,espaceMatrix);
                                 }
-                                if(previousFight instanceof Guerrier){
-                                    ((Guerrier) previousFight).combattre(jr.perso,espaceMatrix);
+                                if(previousElemJeu instanceof Guerrier){
+                                    ((Guerrier) previousElemJeu).combattre(jr.perso,espaceMatrix);
                                 }
                             }
                         } else {
-                            System.out.println("Pas de combat trouvé, re- essayer");
+                            tourDeJeu(jr,previousElemJeu,"q");
                         }
                     }
                     else{
                         //Existent fight
-                        if (jr.persoClass == "Guerrier") {
-                            Guerrier Warrior = (Guerrier) jr.perso;
-                            Warrior.combattre(previousFight, espaceMatrix);
-                            if(previousFight instanceof Loup){
-                                ((Loup) previousFight).combattre(jr.perso,espaceMatrix);
+                        if(previousElemJeu instanceof Creature) {
+                            if (jr.persoClass == "Guerrier") {
+                                Guerrier Warrior = (Guerrier) jr.perso;
+                                Warrior.combattre(previousElemJeu, espaceMatrix);
+                                if (previousElemJeu instanceof Loup) {
+                                    ((Loup) previousElemJeu).combattre(jr.perso, espaceMatrix);
+                                }
+                                if (previousElemJeu instanceof Archer) {
+                                    ((Archer) previousElemJeu).combattre(jr.perso, espaceMatrix);
+                                }
+                                if (previousElemJeu instanceof Guerrier) {
+                                    ((Guerrier) previousElemJeu).combattre(jr.perso, espaceMatrix);
+                                }
                             }
-                            if(previousFight instanceof Archer){
-                                ((Archer) previousFight).combattre(jr.perso,espaceMatrix);
+                            if (jr.persoClass == "Archer") {
+                                Archer Archer = (Archer) jr.perso;
+                                Archer.combattre(previousElemJeu, espaceMatrix);
+                                if (previousElemJeu instanceof Loup) {
+                                    ((Loup) previousElemJeu).combattre(jr.perso, espaceMatrix);
+                                }
+                                if (previousElemJeu instanceof Archer) {
+                                    ((Archer) previousElemJeu).combattre(jr.perso, espaceMatrix);
+                                }
+                                if (previousElemJeu instanceof Guerrier) {
+                                    ((Guerrier) previousElemJeu).combattre(jr.perso, espaceMatrix);
+                                }
                             }
-                            if(previousFight instanceof Guerrier){
-                                ((Guerrier) previousFight).combattre(jr.perso,espaceMatrix);
+                            if (previousElemJeu.getPtVie() <= 0) {
+                                previousElemJeu = null;
                             }
                         }
-                        if (jr.persoClass == "Archer") {
-                            Archer Archer = (Archer) jr.perso;
-                            Archer.combattre(previousFight, espaceMatrix);
-                            if(previousFight instanceof Loup){
-                                ((Loup) previousFight).combattre(jr.perso,espaceMatrix);
-                            }
-                            if(previousFight instanceof Archer){
-                                ((Archer) previousFight).combattre(jr.perso,espaceMatrix);
-                            }
-                            if(previousFight instanceof Guerrier){
-                                ((Guerrier) previousFight).combattre(jr.perso,espaceMatrix);
-                            }
-                        }
-                        if(previousFight.getPtVie()<=0){previousFight = null;}
                     }
 
             }
+            else if (option.equals("p")){
+                //prend Objet
+                Random random1 = new Random();
+                int numberRdnx = random1.nextInt(1 + 1) - 1;
+                int numberRdny = random1.nextInt(1 + 1) - 1;
+                numberRdnx = random1.nextInt(((jr.perso).getDistAttMax()-1) + ((jr.perso).getDistAttMax()-1) ) - ((jr.perso).getDistAttMax()-1);
+                numberRdny = random1.nextInt(((jr.perso).getDistAttMax()-1) + ((jr.perso).getDistAttMax()-1) ) - ((jr.perso).getDistAttMax()-1);
+                Point2D ObjetPoint = new Point2D(jr.perso.getPos().getX()+numberRdnx,jr.perso.getPos().getX()+numberRdny);
+                if(espaceMatrix.getPositionMatrix(ObjetPoint)!=null && espaceMatrix.getPositionMatrix(ObjetPoint) instanceof Objet){
+                    jr.perso.prendObjet((Objet)espaceMatrix.getPositionMatrix(ObjetPoint),espaceMatrix);
+                } else {
+                    tourDeJeu(jr,null,"p");
+                }
+            } else{
+                System.out.println("Appueyr sur un valeur valide");
+            }
             System.out.println();
-            espaceMatrix.affiche(player1,previousFight);
-            tourDeJeu(jr,previousFight);
+            espaceMatrix.affiche(player1,previousElemJeu);
+            tourDeJeu(jr,previousElemJeu,null);
     }
 
     /**

@@ -72,20 +72,25 @@ public class Personnage extends Creature {
      * Fonction d'interaction avec l'objet
      * @param objet objet avec lequel le personnage interagira
      */
-    public void prendObjet(Objet objet){
+    public void prendObjet(Objet objet, Matrix monde){
             //check if object is close
-            if (this.getPos().distance(objet.getPos()) == 0) {
+            if (this.getPos().distance(objet.getPos()) <= 1.43) {
                 if (objet instanceof Epee) {
                     Epee sword = (Epee) objet;
                     this.setDegAtt(this.getDegAtt() + (sword.getPtdegat()));
+                    monde.setPositionMatrix(objet.getPos(),null);
                     objet = null;
+
                 }
                 if (objet instanceof PotionSoin) {
                     //check if warior is hurt
                     if(this.getPtVie()<100) {
                     PotionSoin potion = (PotionSoin) objet;
                     this.setPtVie(this.getPtVie() + (potion.getPtRevit()));
+                    System.out.println(this.getNom()+" a " +this.getPtVie()+ "pt vie");
+
                         if(this.getPtVie()>100) {this.setPtVie(100);}
+                        monde.setPositionMatrix(objet.getPos(),null);
                         objet = null;
                     } else{
                         System.out.println("vous êtes déjà Guerri et peut pas prendre la potion");
