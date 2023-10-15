@@ -194,7 +194,7 @@ public class Creature extends ElementDeJeu implements Deplacable {
             numberRdny = random2.nextInt(2 + 1) - 1;
         }
         if(monde.getPositionMatrix(new Point2D(pos.getX()+numberRdnx,pos.getY()+numberRdny))==null){
-                monde.setPositionMatrix(pos, this);
+                monde.setPositionMatrix(pos, null);
                 pos.translate(numberRdnx, numberRdny);
                 monde.setPositionMatrix(pos, this);
 

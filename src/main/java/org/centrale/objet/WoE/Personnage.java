@@ -74,31 +74,35 @@ public class Personnage extends Creature {
      */
     public void prendObjet(Objet objet, Matrix monde){
             //check if object is close
+        if(objet instanceof Utilisable) {
             if (this.getPos().distance(objet.getPos()) <= 1.43) {
                 if (objet instanceof Epee) {
                     Epee sword = (Epee) objet;
                     this.setDegAtt(this.getDegAtt() + (sword.getPtdegat()));
-                    monde.setPositionMatrix(objet.getPos(),null);
+                    monde.setPositionMatrix(objet.getPos(), null);
                     objet = null;
 
                 }
                 if (objet instanceof PotionSoin) {
                     //check if warior is hurt
-                    if(this.getPtVie()<100) {
-                    PotionSoin potion = (PotionSoin) objet;
-                    this.setPtVie(this.getPtVie() + (potion.getPtRevit()));
-                    System.out.println(this.getNom()+" a " +this.getPtVie()+ "pt vie");
+                    if (this.getPtVie() < 100) {
+                        PotionSoin potion = (PotionSoin) objet;
+                        this.setPtVie(this.getPtVie() + (potion.getPtRevit()));
+                        System.out.println(this.getNom() + " a " + this.getPtVie() + "pt vie");
 
-                        if(this.getPtVie()>100) {this.setPtVie(100);}
-                        monde.setPositionMatrix(objet.getPos(),null);
+                        if (this.getPtVie() > 100) {
+                            this.setPtVie(100);
+                        }
+                        monde.setPositionMatrix(objet.getPos(), null);
                         objet = null;
-                    } else{
+                    } else {
                         System.out.println("vous êtes déjà Guerri et peut pas prendre la potion");
                     }
                 }
             } else {
                 System.out.println("Personnage est loin d'objet");
             }
+        }
         }
 
 

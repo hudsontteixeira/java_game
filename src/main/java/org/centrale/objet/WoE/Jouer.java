@@ -42,7 +42,7 @@ public class Jouer {
         int numberpageparArch = random.nextInt(40 - 10) + 10; //max 10 min 1 faible chance de defense
         int numberdistArch = random.nextInt(20 - 10) + 10; //max 20 min 10 max
         int numberflArch = random.nextInt(50 - 10) + 10; //max 50 min 10 max
-        Point2D point = new Point2D(random.nextInt(6),random.nextInt(6)); //Quelque  point d'une matrice 100X100
+        Point2D point = new Point2D(random.nextInt(3),random.nextInt(3)); //Quelque  point d'une matrice 100X100
 
         //creation archer avec plus de points de attaque mais plus de precision
         int numberdegattWarrior = random.nextInt(40 - 20) + 20; //max 40 min 20 fort attaque

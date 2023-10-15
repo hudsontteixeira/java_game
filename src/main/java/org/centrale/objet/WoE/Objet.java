@@ -22,7 +22,9 @@ public class Objet extends ElementDeJeu {
     public Objet(Objet objet) {
         this.pos = new Point2D();
     }
+    public Objet(){
 
+    }
     /**
      * Methòde pour prendre la position d'objet
      * @return la position d'objet (un point Point2D)
@@ -39,3 +41,4 @@ public class Objet extends ElementDeJeu {
         this.pos = pos;
     }
 }
+

@@ -4,7 +4,7 @@ package org.centrale.objet.WoE;
  * @author LOPEZ TEIXEIRA
  * @version 1.0
  */
-public class PotionSoin extends Objet{
+public class PotionSoin extends Objet implements Utilisable {
     private int ptRevit;
     /**
      * Constructeur pour une potion

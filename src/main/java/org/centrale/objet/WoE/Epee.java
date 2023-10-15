@@ -4,7 +4,7 @@ package org.centrale.objet.WoE;
  * @author LOPEZ TEIXEIRA
  * @version 1.0
  */
-public class Epee extends Objet{
+public class Epee extends Objet implements Utilisable{
     private int ptdegat;
 
     /**

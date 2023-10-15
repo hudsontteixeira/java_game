@@ -10,7 +10,7 @@ public class World {
     Jouer player1 = new Jouer();
     ArrayList<Creature> creatures;
     ArrayList<ElementDeJeu> eleJeu;
-
+    NuageToxique nuageToxique;
     ArrayList<Objet> objets;
     Archer guillaumeT;
     Archer robin;
@@ -317,11 +317,11 @@ public class World {
         int numberptparWarrior = random.nextInt(20 - 10) + 1; //max 20 min 10
         int numberpageparWarrior = random.nextInt(70 - 50) + 50; //max 70 min 50 bonne chance de defense
 
-        int nbArcher =  1;
-        int nbPaysan =  1;
-        int nbLapin =  1;
-        int nbGuerrier =  1;
-        int nbLoup =  2;
+        int nbArcher =  0;
+        int nbPaysan =  0;
+        int nbLapin =  0;
+        int nbGuerrier =  0;
+        int nbLoup =  0;
 
         /*
         CREATION D'ITENS
@@ -348,6 +348,7 @@ public class World {
         //CREATION DE POINTS
         ArrayList<Point2D> points = new ArrayList<>();
         boolean  different = true;
+        //points EleJeu
         while(points.size()<eleJeu.size()){
             Point2D point = new Point2D(random.nextInt(taille), random.nextInt(taille));
             different = true;
@@ -361,6 +362,24 @@ public class World {
                 points.add(point);
             }
         }
+        //points nuage
+        int numberOfNuages = 1;
+        ArrayList<Point2D> pointsNuage = new ArrayList<>();
+        while(pointsNuage.size()<numberOfNuages){
+            Point2D point = new Point2D(random.nextInt(taille), random.nextInt(taille));
+            different = true;
+            for(Point2D p: points){
+                if(p.x == point.x && p.y == point.y){
+                    different = false;
+                    break;
+                }
+            }
+            if(different) {
+                pointsNuage.add(point);
+            }
+        }
+        nuageToxique = new NuageToxique(pointsNuage.get(0));
+
         for (int i=0; i<eleJeu.size(); i++){
             if(eleJeu.get(i) instanceof Creature) {
                 ((Creature)eleJeu.get(i)).setPos(points.get(i));
@@ -470,11 +489,8 @@ public class World {
     public void creerCombatJuable(){
         taille = 9;
         espaceMatrix = new Matrix(new ElementDeJeu[taille][taille]);
-        Archer robin1 = new Archer("robin1",100,20,10,80,40,20,new Point2D(0,0),3);
-        Jouer fakeplayer = new Jouer(robin1);
         Creature previousElemJeu = null;
         AddAleaCollections();
-        espaceMatrix.setPositionMatrix(fakeplayer.getPerso().getPos(),fakeplayer.perso);
         player1.choosePersonnage();
         espaceMatrix.setPositionMatrix(player1.getPerso().getPos(),player1.perso);
         espaceMatrix.affiche(player1,null);
@@ -492,7 +508,8 @@ public class World {
      */
     public void tourDeJeu(Jouer jr, Creature previousElemJeu, String recursive){
         String option;
-            if(recursive == null) {
+        Random random1 = new Random();
+        if(recursive == null) {
                 System.out.println("AWSD pour boger ou Q pour attaquer");
                 Scanner sc = new Scanner(System.in);
                 option = sc.nextLine();
@@ -507,7 +524,6 @@ public class World {
                 previousElemJeu = null;
             }
             else if (option.equals("q")) {
-                Random random1 = new Random();
                 int numberRdnx = random1.nextInt(1 + 1) - 1;
                 int numberRdny = random1.nextInt(1 + 1) - 1;
                 if(jr.persoClass.equals("Archer")){
@@ -589,7 +605,6 @@ public class World {
             }
             else if (option.equals("p")){
                 //prend Objet
-                Random random1 = new Random();
                 int numberRdnx = random1.nextInt(1 + 1) - 1;
                 int numberRdny = random1.nextInt(1 + 1) - 1;
                 numberRdnx = random1.nextInt(((jr.perso).getDistAttMax()-1) + ((jr.perso).getDistAttMax()-1) ) - ((jr.perso).getDistAttMax()-1);
@@ -603,6 +618,15 @@ public class World {
             } else{
                 System.out.println("Appueyr sur un valeur valide");
             }
+            //nuage allways try to kill and moove randonly
+            nuageToxique.deplace(espaceMatrix);
+            int numberRdnx = random1.nextInt(1 + 1) - 1;
+            int numberRdny = random1.nextInt(1 + 1) - 1;
+            Point2D AtackPoint = new Point2D(nuageToxique.getPos().getX()+numberRdnx,nuageToxique.getPos().getX()+numberRdny);
+            if(espaceMatrix.getPositionMatrix(AtackPoint)!=null && espaceMatrix.getPositionMatrix(AtackPoint) instanceof Creature ) {
+                nuageToxique.combattre((Creature)espaceMatrix.getPositionMatrix(AtackPoint), espaceMatrix);
+            }
+            //refresh
             System.out.println();
             espaceMatrix.affiche(player1,previousElemJeu);
             tourDeJeu(jr,previousElemJeu,null);
