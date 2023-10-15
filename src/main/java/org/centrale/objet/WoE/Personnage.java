@@ -12,7 +12,7 @@ import java.util.Random;
 public class Personnage extends Creature {
 
     private int distAttMax;
-    public ArrayList<Objet> inventaire;
+
 
     /**
      * Créer un nouveau Personnage
@@ -106,7 +106,6 @@ public class Personnage extends Creature {
         //check if object is close
         if(objet instanceof Utilisable) {
             if (this.getPos().distance(objet.getPos()) <= 1.43) {
-                this.inventaire.add(objet);
                 monde.setPositionMatrix(objet.getPos(), null);
             } else {
                 System.out.println("Personnage est loin d'objet");
@@ -114,15 +113,5 @@ public class Personnage extends Creature {
         }
     }
 
-    public void setInventaire(ArrayList<Objet> inventaire) {
-        this.inventaire = inventaire;
-    }
 
-    public void addToInventaire(Objet obj){
-        this.inventaire.add(obj);
-    }
-
-    public ArrayList<Objet> getInventaire() {
-        return inventaire;
-    }
 }

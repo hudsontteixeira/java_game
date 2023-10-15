@@ -59,7 +59,7 @@ public class Matrix {
     /**
      * Methòde qui affiche notre matrice de monde dans le console
      */
-    public void affiche(Jouer jouer, ElementDeJeu opponent){
+    public void affiche(Joueur jouer, ElementDeJeu opponent){
         int valueShow = 0;
         for (int i = 0; i < this.espaceMatrix.length; i++) {
             for (int j = 0; j < this.espaceMatrix[i].length; j++) {

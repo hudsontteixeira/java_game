@@ -1,16 +1,17 @@
 package org.centrale.objet.WoE;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Jouer {
+public class Joueur {
     public Personnage perso;
-    public String persoClass;
-    public Jouer(Personnage perso) {
+    private ArrayList<Utilisable> effets;
+    private ArrayList<Utilisable> inventaire;
+    public Joueur(Personnage perso) {
         if(perso instanceof Guerrier || perso instanceof Archer ){
             this.perso = perso;
-            this.persoClass = perso.getClass().toString();
         } else {
             System.out.println("choisissez un personnage valabe");
         }
@@ -25,13 +26,18 @@ public class Jouer {
         this.perso = perso;
     }
 
-    public Jouer(){
+    public Joueur(){
         this.perso = new Personnage();
     };
     public void choosePersonnage(){
-        System.out.println("Choisir un type de personnage (Archer/Guerrier)");
+
         Scanner sc = new Scanner(System.in);
-        persoClass = sc.nextLine();
+        String typep;
+        do {
+            System.out.println("Choisir un type de personnage (Archer/Guerrier)");
+            typep = sc.nextLine();
+        }while(!typep.equals("Guerrier") && !typep.equals("Archer"));
+
         System.out.println("Choisir un nom");
         String persoNom = sc.nextLine();
 
@@ -44,23 +50,19 @@ public class Jouer {
         int numberdistArch = random.nextInt(20 - 10) + 10; //max 20 min 10 max
         int numberflArch = random.nextInt(50 - 10) + 10; //max 50 min 10 max
         Point2D point = new Point2D(random.nextInt(3),random.nextInt(3)); //Quelque  point d'une matrice 100X100
-        ArrayList<Objet> inventaire = new ArrayList<>();
+        inventaire = new ArrayList<>();
         //creation archer avec plus de points de attaque mais plus de precision
         int numberdegattWarrior = random.nextInt(40 - 20) + 20; //max 40 min 20 fort attaque
         int numberpagattWarrior = random.nextInt(80 - 20) + 20; //max 80 min 20 moyennes chances de reussis (precision)
         int numberptparWarrior = random.nextInt(20 - 10) + 1; //max 20 min 10
         int numberpageparWarrior = random.nextInt(70 - 50) + 50; //max 70 min 50 bonne chance de defense
-        if(persoClass.equals("Guerrier")){
+        if(typep.equals("Guerrier")){
             Guerrier war = new Guerrier(persoNom,100,numberdegattWarrior,numberpagattWarrior,numberptparWarrior,numberpageparWarrior,0,point);
             this.perso = war;
-            this.persoClass = "Guerrier";
-            this.perso.setInventaire(inventaire);
         }
-        if(persoClass.equals("Archer")){
+        if(typep.equals("Archer")){
             Archer arc =  new Archer(persoNom,100,numberdegattArch,numberptparArch,numberpagattArch,numberpageparArch,numberdistArch,point,numberflArch);
             this.perso = arc;
-            this.persoClass = "Archer";
-            this.perso.setInventaire(inventaire);
         }
     }
 
@@ -85,11 +87,41 @@ public class Jouer {
             this.perso.getPos().translate(numberx, numbery);
             monde.setPositionMatrix(this.perso.getPos(), this.perso);
 
-        } else{
+        }else if (monde.getPositionMatrix(new Point2D(this.perso.getPos().getX()+numberx,this.perso.getPos().getY()+numbery)) instanceof Utilisable){
+            this.inventaire.add((Utilisable) monde.getPositionMatrix(new Point2D(this.perso.getPos().getX()+numberx,this.perso.getPos().getY()+numbery)));
+            perso.prendObjet((Objet)monde.getPositionMatrix(new Point2D(this.perso.getPos().getX()+numberx,this.perso.getPos().getY()+numbery)),monde);
+
+            monde.setPositionMatrix(this.perso.getPos(), null);
+
+            this.perso.getPos().translate(numberx, numbery);
+            monde.setPositionMatrix(this.perso.getPos(), this.perso);
+
+        }else{
             System.out.println("Peut pas y aller");
             Scanner sc = new Scanner(System.in);
             String option = sc.nextLine();
             this.deplace(monde,option);
         }
+    }
+
+
+    public void setInventaire(ArrayList<Utilisable> inventaire) {
+        this.inventaire = inventaire;
+    }
+
+    public void addToInventaire(Utilisable obj){
+        this.inventaire.add(obj);
+    }
+
+    public ArrayList<Utilisable> getInventaire() {
+        return inventaire;
+    }
+
+    public ArrayList<Utilisable> getEffets() {
+        return effets;
+    }
+
+    public void setEffets(ArrayList<Utilisable> effets) {
+        this.effets = effets;
     }
 }

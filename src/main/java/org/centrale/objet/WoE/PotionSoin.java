@@ -6,6 +6,7 @@ package org.centrale.objet.WoE;
  */
 public class PotionSoin extends Objet implements Utilisable {
     private int ptRevit;
+    private int uses;
     /**
      * Constructeur pour une potion
      * @param pos position donnée d'objet
@@ -14,6 +15,7 @@ public class PotionSoin extends Objet implements Utilisable {
     public PotionSoin(Point2D pos, int ptRevit) {
         super(pos);
         this.ptRevit = ptRevit;
+        uses = 3;
     }
     /**
      * Getter pour prendre valeur de vie à augmenter
@@ -30,5 +32,18 @@ public class PotionSoin extends Objet implements Utilisable {
      */
     public void setPtRevit(int ptRevit) {
         this.ptRevit = ptRevit;
+    }
+
+    @Override
+    public void decrementer() {
+        uses-=1;
+    }
+
+    public int getUses() {
+        return uses;
+    }
+
+    public void setUses(int uses) {
+        this.uses = uses;
     }
 }

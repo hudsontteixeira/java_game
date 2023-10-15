@@ -6,6 +6,7 @@ package org.centrale.objet.WoE;
  */
 public class Epee extends Objet implements Utilisable{
     private int ptdegat;
+    private int uses;
 
     /**
      * Constructeur pour un Epee
@@ -39,5 +40,10 @@ public class Epee extends Objet implements Utilisable{
      */
     public void setPtdegat(int ptdegat) {
         this.ptdegat = ptdegat;
+    }
+
+    @Override
+    public void decrementer() {
+        uses-=1 ;
     }
 }
