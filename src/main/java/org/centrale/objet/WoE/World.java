@@ -316,7 +316,7 @@ public class World {
         int numberpagattWarrior = random.nextInt(80 - 20) + 20; //max 80 min 20 moyennes chances de reussis (precision)
         int numberptparWarrior = random.nextInt(20 - 10) + 1; //max 20 min 10
         int numberpageparWarrior = random.nextInt(70 - 50) + 50; //max 70 min 50 bonne chance de defense
-
+         //set amount of opponents in the game for each class
         int nbArcher =  0;
         int nbPaysan =  0;
         int nbLapin =  0;
