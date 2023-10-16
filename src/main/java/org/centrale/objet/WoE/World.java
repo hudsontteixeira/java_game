@@ -162,18 +162,14 @@ public class World {
         wolfie.combattre(grosBill,espaceMatrix);
         System.out.println("Simulation Guerrier Toue une Loup dist!=1");
         grosBill.combattre(wolfie2,espaceMatrix);
-        System.out.println("Guerrier essaie prendre potion loin");
-        grosBill.prendObjet(possionMagic,espaceMatrix);
+        System.out.println("Guerrier essaie prendre potion loin");;
         System.out.println("Guerrier essaie prendre potion bonne place");
-        grosBill.setPos(new Point2D(11,11));
-        grosBill.prendObjet(possionMagic,espaceMatrix);
+        grosBill.setPos(new Point2D(11,11));;
         System.out.println("Guerrier ptVie:"+grosBill.getPtVie());
         System.out.println("Guerrier essaie prendre Epee loin");
-        grosBill.prendObjet(sword,espaceMatrix);
         System.out.println("Guerrier essaie prendre Epee bonne place");
         System.out.println("Guerrier degat avant:"+grosBill.getDegAtt());
         grosBill.setPos(new Point2D(10,10));
-        grosBill.prendObjet(sword,espaceMatrix);
         System.out.println("Guerrier degat:"+grosBill.getDegAtt());
 
 

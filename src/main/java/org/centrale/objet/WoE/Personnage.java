@@ -102,16 +102,7 @@ public class Personnage extends Creature {
         }
         }
 
-    public void prendObjet(Objet objet, Matrix monde){
-        //check if object is close
-        if(objet instanceof Utilisable) {
-            if (this.getPos().distance(objet.getPos()) <= 1.43) {
-                monde.setPositionMatrix(objet.getPos(), null);
-            } else {
-                System.out.println("Personnage est loin d'objet");
-            }
-        }
-    }
+
 
 
 }

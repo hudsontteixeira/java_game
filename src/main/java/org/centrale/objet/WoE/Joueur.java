@@ -89,8 +89,7 @@ public class Joueur {
 
         }else if (monde.getPositionMatrix(new Point2D(this.perso.getPos().getX()+numberx,this.perso.getPos().getY()+numbery)) instanceof Utilisable){
             this.inventaire.add((Utilisable) monde.getPositionMatrix(new Point2D(this.perso.getPos().getX()+numberx,this.perso.getPos().getY()+numbery)));
-            perso.prendObjet((Objet)monde.getPositionMatrix(new Point2D(this.perso.getPos().getX()+numberx,this.perso.getPos().getY()+numbery)),monde);
-
+            monde.setPositionMatrix(((Objet)monde.getPositionMatrix(new Point2D(this.perso.getPos().getX()+numberx,this.perso.getPos().getY()+numbery))).getPos(),null);
             monde.setPositionMatrix(this.perso.getPos(), null);
 
             this.perso.getPos().translate(numberx, numbery);
