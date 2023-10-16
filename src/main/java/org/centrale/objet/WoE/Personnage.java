@@ -76,31 +76,28 @@ public class Personnage extends Creature {
      */
     public void utiliserObjet(Objet objet){
             //check if object is close
-        if(objet instanceof Utilisable) {
-                if (objet instanceof Epee) {
-                    Epee sword = (Epee) objet;
-                    this.setDegAtt(this.getDegAtt() + (sword.getPtdegat()));
-                    objet = null;
+        if (objet instanceof Epee) {
+            Epee sword = (Epee) objet;
+            this.setDegAtt(this.getDegAtt() + (sword.getPtdegat()));
 
+        }
+        if (objet instanceof PotionSoin) {
+            //check if warior is hurt
+            if (this.getPtVie() < 100) {
+                PotionSoin potion = (PotionSoin) objet;
+                this.setPtVie(this.getPtVie() + (potion.getPtRevit()));
+                System.out.println(this.getNom() + " a " + this.getPtVie() + "pt vie");
+
+                if (this.getPtVie() > 100) {
+                    this.setPtVie(100);
                 }
-                if (objet instanceof PotionSoin) {
-                    //check if warior is hurt
-                    if (this.getPtVie() < 100) {
-                        PotionSoin potion = (PotionSoin) objet;
-                        this.setPtVie(this.getPtVie() + (potion.getPtRevit()));
-                        System.out.println(this.getNom() + " a " + this.getPtVie() + "pt vie");
-
-                        if (this.getPtVie() > 100) {
-                            this.setPtVie(100);
-                        }
-                        objet = null;
-                    } else {
+            } else {
                         System.out.println("vous êtes déjà Guerri et peut pas prendre la potion");
-                    }
-                }
+            }
+        }
 
         }
-        }
+
 
 
 

@@ -30,15 +30,16 @@ public class NuageToxique extends Objet implements Deplacable,Combattant {
     public void deplace(Matrix monde) {
         Random random1 = new Random();
         Random random2 = new Random();
-        int numberRdnx = random1.nextInt(2 + 1) - 1;
-        int numberRdny = random2.nextInt(2 + 1) - 1;
+        int numberRdnx = random1.nextInt( 3) - 1;
+        int numberRdny = random2.nextInt() - 1;
         while (monde.getPositionMatrix(new Point2D(this.getPos().getX()+numberRdnx,this.getPos().getY()+numberRdny))!=null){
             random1 = new Random();
             random2 = new Random();
-            numberRdnx = random1.nextInt(2 + 1) - 1;
-            numberRdny = random2.nextInt(2 + 1) - 1;
+            numberRdnx = random1.nextInt(3 ) - 1;
+            numberRdny = random2.nextInt(3 ) - 1;
         }
-        if(monde.getPositionMatrix(new Point2D(this.getPos().getX()+numberRdnx,this.getPos().getY()+numberRdny))==null){
+        Point2D pointTest = new Point2D(this.getPos().getX()+numberRdnx,this.getPos().getY()+numberRdny);
+        if(monde.getPositionMatrix(pointTest)==null&&pointTest.getX()>=0&&pointTest.getX()<=monde.getEspaceMatrix()[0].length&&pointTest.getY()>=0&&pointTest.getY()<=monde.getEspaceMatrix()[0].length){
             monde.setPositionMatrix(this.getPos(), null);
             this.getPos().translate(numberRdnx, numberRdny);
             monde.setPositionMatrix(this.getPos(), this);

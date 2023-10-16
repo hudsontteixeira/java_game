@@ -376,8 +376,8 @@ public class World {
                 pointsNuage.add(point);
             }
         }
-        nuageToxique = new NuageToxique(pointsNuage.get(0));
-
+        nuageToxique = new NuageToxique(new Point2D(0,5));
+        espaceMatrix.setPositionMatrix(nuageToxique.getPos(),nuageToxique);
         for (int i=0; i<eleJeu.size(); i++){
             if(eleJeu.get(i) instanceof Creature) {
                 ((Creature)eleJeu.get(i)).setPos(points.get(i));
@@ -610,26 +610,26 @@ public class World {
                 int inventairenumber = scan.nextInt();
                 Utilisable u =  jr.getInventaire().get(inventairenumber);
                 jr.getInventaire().remove(inventairenumber);
-                //uses first objet
-                jr.perso.utiliserObjet((Objet)u);
 
-                jr.getEffets().add(u);
+                //uses first objet
+                if(jr.perso.getPtVie()!=100 && u instanceof PotionSoin) {
+                    jr.perso.utiliserObjet((Objet) u);
+                    jr.getEffets().add(u);
+                }
+
             }  else{
                 System.out.println("Inventory Vide");
             }
         }else{
             System.out.println("Appuyer sur un valeur valide");
         }
-        //nuage allways try to kill and moove randonly
-        //nuageToxique.deplace(espaceMatrix);
-        //int numberRdnx = random1.nextInt(1 + 1) - 1;
-        //int numberRdny = random1.nextInt(1 + 1) - 1;
-        //Point2D AtackPoint = new Point2D(nuageToxique.getPos().getX()+numberRdnx,nuageToxique.getPos().getX()+numberRdny);
-        //if(espaceMatrix.getPositionMatrix(AtackPoint)!=null && espaceMatrix.getPositionMatrix(AtackPoint) instanceof Creature ) {
-        //   nuageToxique.combattre((Creature)espaceMatrix.getPositionMatrix(AtackPoint), espaceMatrix);
-        //}
-        //refresh
-        System.out.println();
+        nuageToxique.deplace(espaceMatrix);
+        int numberRdnx = random1.nextInt(1 + 1) - 1;
+        int numberRdny = random1.nextInt(1 + 1) - 1;
+        Point2D AtackPoint = new Point2D(nuageToxique.getPos().getX()+numberRdnx,nuageToxique.getPos().getX()+numberRdny);
+        if(espaceMatrix.getPositionMatrix(AtackPoint)!=null && espaceMatrix.getPositionMatrix(AtackPoint) instanceof Creature ) {
+           nuageToxique.combattre((Creature)espaceMatrix.getPositionMatrix(AtackPoint), espaceMatrix);
+        }
         espaceMatrix.affiche(player1,previousElemJeu);
         tourDeJeu(jr,previousElemJeu,null);
     }

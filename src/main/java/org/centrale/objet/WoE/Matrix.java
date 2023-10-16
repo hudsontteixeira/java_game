@@ -70,16 +70,19 @@ public class Matrix {
                     valueShow = 0;
                 }
                 if(jouer != null && i==jouer.perso.getPos().getX()&& j==jouer.perso.getPos().getY()) {
-                    System.out.print("\u001B[34m"+valueShow+"\u001B[0m" + " ");
+                    System.out.print("\u001B[34m"+jouer.perso.getNom().substring(0,1)+"\u001B[0m" + " ");
                 } else if (((Creature)opponent) != null && i==((Creature)opponent).getPos().getX()&& j==((Creature)opponent).getPos().getY()) {
                     System.out.print("\u001B[31m"+valueShow+"\u001B[0m" + " ");
                 } else if(this.espaceMatrix[i][j] instanceof Objet){
-                    System.out.print("\u001B[36m"+valueShow+"\u001B[0m" + " ");
+                    if((Objet)this.espaceMatrix[i][j] instanceof NuageToxique){
+                        System.out.print("\u001B[35m"+valueShow+"\u001B[0m" + " ");
+                    }else{System.out.print("\u001B[36m"+valueShow+"\u001B[0m" + " ");};
                 } else {
                     System.out.print(valueShow + " ");
                 }
             }
             System.out.println();
         }
+        System.out.println();
     }
 }
