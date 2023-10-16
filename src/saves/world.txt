@@ -1,0 +1,15 @@
+Size 9
+Archer Arqueiro 78 16 9 60 32 19 3 0 19
+Archer Arqueiro 100 16 9 60 32 19 2 7 21
+Paysan Paisano 100 0 0 0 0 0 6 4
+Paysan Paisano 100 0 0 0 0 0 0 7
+Guerrier Guerreiro 89 23 58 41 58 0 6 6
+Guerrier Guerreiro 100 23 58 41 58 0 0 1
+Lapin Lapin 100 0 0 0 0 5 3
+Lapin Lapin 78 0 0 0 0 7 5
+Loup Loup 75 0 0 0 0 6 3
+PotionSoin 3 10 6 0
+PotionSoin 3 10 3 5
+Joueur Archer dsd 72 11 10 93 18 14 3 5 20
+Inventaire  Effets PotionSoin 3 10 3 5
+

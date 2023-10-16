@@ -1,4 +1,8 @@
 package org.centrale.objet.WoE;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 /**
  * Classe de création du Monde
@@ -35,7 +39,7 @@ public class World {
         System.out.println("pour générer un monde de combat appuyez 2, pour tester un monde avec de grandes collections et tester leurs performances appuyez 3,");
         System.out.println("pour générer un monde où les personnages ne peuvent pas se chevaucher appuyez 4.");
         System.out.println("pour regarder des exceptions 5.");
-        System.out.println("pour atribuire un personnage jouable à un jouer appuyez 6.");
+        System.out.println("pour atribuire un personnage jouable à un jouer et puis garder appuyez 6.");
         Scanner sc = new Scanner(System.in);
         int startOption = sc.nextInt();
         if(startOption==1){
@@ -315,11 +319,11 @@ public class World {
         int numberptparWarrior = random.nextInt(20 - 10) + 1; //max 20 min 10
         int numberpageparWarrior = random.nextInt(70 - 50) + 50; //max 70 min 50 bonne chance de defense
          //set amount of opponents in the game for each class
-        int nbArcher =  0;
-        int nbPaysan =  0;
-        int nbLapin =  0;
-        int nbGuerrier =  0;
-        int nbLoup =  0;
+        int nbArcher =  2;
+        int nbPaysan =  2;
+        int nbLapin =  2;
+        int nbGuerrier =  2;
+        int nbLoup =  1;
 
         /*
         CREATION D'ITENS
@@ -508,7 +512,7 @@ public class World {
         String option;
         Random random1 = new Random();
         if(recursive == null) {
-                System.out.println("awsd pour se deplacer ou q pour attaquer, i inventory and p prendre objet");
+                System.out.println("awsd pour se deplacer ou q pour attaquer, i inventory and p prendre objet, x saves");
                 Scanner sc = new Scanner(System.in);
                 option = sc.nextLine();
         } else {
@@ -600,6 +604,9 @@ public class World {
             }
 
         }
+        else if(option.equals("x")){
+            garderMonde();
+        }
         else if(option.equals("i")){
             if(!jr.getInventaire().isEmpty()){
                 for (int i = 0; i<jr.getInventaire().size(); i++){
@@ -609,11 +616,18 @@ public class World {
                 Scanner scan = new Scanner(System.in);
                 int inventairenumber = scan.nextInt();
                 Utilisable u =  jr.getInventaire().get(inventairenumber);
-                jr.getInventaire().remove(inventairenumber);
+
 
                 //uses first objet
                 if(jr.perso.getPtVie()!=100 && u instanceof PotionSoin) {
                     jr.perso.utiliserObjet((Objet) u);
+                    jr.getInventaire().remove(inventairenumber);
+                    jr.getEffets().add(u);
+                }else if (u instanceof PotionSoin){
+                    System.out.println("Tu peux pas l'utiliser");
+                }if(u instanceof Epee) {
+                    jr.perso.utiliserObjet((Objet) u);
+                    jr.getInventaire().remove(inventairenumber);
                     jr.getEffets().add(u);
                 }
 
@@ -634,11 +648,128 @@ public class World {
         tourDeJeu(jr,previousElemJeu,null);
     }
 
+    public void garderMonde(){
+        BufferedWriter bw = null;
+        try {
+            String rute = new File("").getAbsolutePath();
+            File file = new File(rute+"/src/saves/world.txt");
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            bw = new BufferedWriter(fw);
+
+
+            String size = "";
+            String total = "";
+
+
+            size = "Size "+this.taille+"\n";
+
+            for (ElementDeJeu e: eleJeu) {
+                total+=writePersonnage(e);
+            }
+            for (ElementDeJeu e: eleJeu) {
+                total+=writeMonstre(e);
+            }
+            for (ElementDeJeu e: eleJeu) {
+                total+=writeObjet(e);
+            }
+
+            //Ajout personnage jouer
+            total+="Joueur "+ writePersonnage(player1.getPerso());
+
+            //Ajout INVENTAIRE
+            total+="Inventaire  ";
+            for (Utilisable e: player1.getInventaire()) {
+                total+=writeObjet((Objet)e);
+            }
+            total+="Effets ";
+            System.out.println(player1.toString());
+            for (Utilisable e: player1.getEffets()) {
+                total+=writeObjet((Objet)e);
+            }
+
+            String joueur = "";
+
+            bw.write(size+total);
+            System.out.println("File written Successfully");
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        finally
+        {
+            try{
+                if(bw!=null)
+                    bw.close();
+            }catch(Exception ex){
+                System.out.println("Error in closing the BufferedWriter"+ex);
+            }
+        }
+    }
+
+
     /**
      * Fonction pour afficher le monde
      */
     public void afficheWorld(){
 
+    }
+
+    public String writePersonnage(ElementDeJeu e){
+        String personnage = "";
+        if (e instanceof Creature) {
+            if (e instanceof Personnage) {
+                if (e instanceof Archer) {
+                    personnage += "Archer " + ((Archer) e).getNom() + " " + ((Archer) e).getPtVie() + " " + ((Archer) e).getDegAtt() + " " + ((Archer) e).getPtPar() + " " + ((Archer) e).getPageAtt() + " " + ((Archer) e).getPagePar() + " " + ((Archer) e).getDistAttMax() + " " + ((Archer) e).getPos().getX() + " " + ((Archer) e).getPos().getY() + " " + ((Archer) e).getNbFleches()+"\n";
+                }
+                if (e instanceof Guerrier) {
+                    personnage += "Guerrier " + ((Guerrier) e).getNom() + " " + ((Guerrier) e).getPtVie() + " " + ((Guerrier) e).getDegAtt() + " " + ((Guerrier) e).getPagePar() + " " + ((Guerrier) e).getPtPar() + " " + ((Guerrier) e).getPagePar() + " " + ((Guerrier) e).getDistAttMax() + " " + ((Guerrier) e).getPos().getX() + " " + ((Guerrier) e).getPos().getY()+"\n";
+                }
+                if (e instanceof Paysan) {
+                    personnage += "Paysan " + ((Paysan) e).getNom() + " " + ((Paysan) e).getPtVie() + " " + ((Paysan) e).getDegAtt() + " " + ((Paysan) e).getPagePar() + " " + ((Paysan) e).getPtPar() + " " + ((Paysan) e).getPagePar() + " " + ((Paysan) e).getDistAttMax() + " " + ((Paysan) e).getPos().getX() + " " + ((Paysan) e).getPos().getY()+"\n";
+                }
+            }
+        }
+        return personnage;
+    }
+
+    public String writeMonstre(ElementDeJeu e){
+        String monster = "";
+        if (e instanceof Creature) {
+            if (e instanceof Monstre) {
+                if (e instanceof Lapin) {
+                    Lapin p = (Lapin) e;
+                    monster += "Lapin " + p.getNom() + " " + p.getPtVie() + " " + p.getDegAtt() + " " + p.getPtPar() + " " + p.getPageAtt() + " " + p.getPagePar() + " " + p.getPos().getX() + " " + p.getPos().getY()+"\n";
+                }
+                if (e instanceof Loup) {
+                    Loup p = (Loup) e;
+                    monster += "Loup " + p.getNom() + " " + p.getPtVie() + " " + p.getDegAtt() + " " + p.getPtPar() + " " + p.getPageAtt() + " " + p.getPagePar() + " " + p.getPos().getX() + " " + p.getPos().getY()+"\n";
+                }
+            }
+        }
+        return monster;
+    }
+
+    public String writeObjet(ElementDeJeu e){
+        String objets="";
+        if (e instanceof Objet) {
+            if (e instanceof PotionSoin) {
+                PotionSoin p = (PotionSoin) e;
+                objets += "PotionSoin " + p.getUses() + " " + p.getPtRevit() + " " + p.getPos().getX() + " " + p.getPos().getY()+"\n";
+            }
+            if (e instanceof Epee) {
+                Epee p = (Epee) e;
+                objets += "Epee " + p.getPtdegat() + " " + p.getPos().getX() + " " + p.getPos().getY()+"\n";
+            }
+            if (e instanceof NuageToxique) {
+                NuageToxique p = (NuageToxique) e;
+
+                objets += "NuageToxique " + p.getDegAtt() + " " + p.getPos().getX() + " " + p.getPos().getY()+"\n";
+            }
+        }
+        return objets;
     }
 
 }
