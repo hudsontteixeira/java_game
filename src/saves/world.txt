@@ -1,15 +1,26 @@
-Size 9
-Archer Arqueiro 78 16 9 60 32 19 3 0 19
-Archer Arqueiro 100 16 9 60 32 19 2 7 21
-Paysan Paisano 100 0 0 0 0 0 6 4
-Paysan Paisano 100 0 0 0 0 0 0 7
-Guerrier Guerreiro 89 23 58 41 58 0 6 6
-Guerrier Guerreiro 100 23 58 41 58 0 0 1
-Lapin Lapin 100 0 0 0 0 5 3
-Lapin Lapin 78 0 0 0 0 7 5
-Loup Loup 75 0 0 0 0 6 3
-PotionSoin 3 10 6 0
-PotionSoin 3 10 3 5
-Joueur Archer dsd 72 11 10 93 18 14 3 5 20
-Inventaire  Effets PotionSoin 3 10 3 5
-
+Size 6
+Archer Arqueiro 100 14 4 81 28 15 4 1 1
+Archer Arqueiro 100 14 4 81 28 15 2 1 1
+Paysan Paisano 100 0 0 0 0 0 2 4
+Paysan Paisano 100 0 0 0 0 0 4 3
+Guerrier Guerreiro 100 27 54 54 54 0 2 0
+Guerrier Guerreiro 100 27 54 54 54 0 0 3
+Archer Arqueiro 100 14 4 81 28 15 4 1 1
+Archer Arqueiro 100 14 4 81 28 15 2 1 1
+Paysan Paisano 100 0 0 0 0 0 2 4
+Paysan Paisano 100 0 0 0 0 0 4 3
+Guerrier Guerreiro 100 27 54 54 54 0 2 0
+Guerrier Guerreiro 100 27 54 54 54 0 0 3
+Lapin Lapin 100 0 0 0 0 3 4
+Lapin Lapin 100 0 0 0 0 0 5
+Loup Loup 14 0 0 0 0 3 5
+Lapin Lapin 100 0 0 0 0 3 4
+Lapin Lapin 100 0 0 0 0 0 5
+Loup Loup 14 0 0 0 0 3 5
+PotionSoin 3 10 5 3
+NuageToxique 0 3 2
+PotionSoin 10 3 5 3
+NuageToxique 0 3 2
+Joueur Archer F 100 12 6 74 33 19 0 0 1
+Inventaire  
+Effets 

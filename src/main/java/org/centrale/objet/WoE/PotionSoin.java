@@ -17,6 +17,11 @@ public class PotionSoin extends Objet implements Utilisable {
         this.ptRevit = ptRevit;
         uses = 3;
     }
+    public PotionSoin(Point2D pos, int ptRevit, int uses) {
+        super(pos);
+        this.ptRevit = ptRevit;
+        this.uses = uses;
+    }
     /**
      * Getter pour prendre valeur de vie à augmenter
      * @return  valeur de vie à augmenter

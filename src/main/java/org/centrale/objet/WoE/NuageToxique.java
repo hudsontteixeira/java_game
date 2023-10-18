@@ -3,9 +3,15 @@ package org.centrale.objet.WoE;
 import java.util.Random;
 
 public class NuageToxique extends Objet implements Deplacable,Combattant {
+
     private int DegAtt;
     public NuageToxique(Point2D point) {
         super(point);
+    }
+
+    public NuageToxique(Point2D point, int degAtt) {
+        super(point);
+        this.DegAtt = degAtt;
     }
 
     public NuageToxique(Objet objet) {

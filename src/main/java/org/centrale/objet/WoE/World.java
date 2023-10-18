@@ -1,8 +1,5 @@
 package org.centrale.objet.WoE;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 /**
  * Classe de création du Monde
@@ -14,7 +11,6 @@ public class World {
     Joueur player1 = new Joueur();
     ArrayList<Creature> creatures;
     ArrayList<ElementDeJeu> eleJeu;
-    NuageToxique nuageToxique;
     ArrayList<Objet> objets;
     Archer guillaumeT;
     Archer robin;
@@ -28,7 +24,7 @@ public class World {
     Loup wolfie2;
     PotionSoin possionMagic;
     Epee sword;
-    int taille;
+    int taille = 0 ;
     Matrix espaceMatrix;
 
     /**
@@ -40,6 +36,7 @@ public class World {
         System.out.println("pour générer un monde où les personnages ne peuvent pas se chevaucher appuyez 4.");
         System.out.println("pour regarder des exceptions 5.");
         System.out.println("pour atribuire un personnage jouable à un jouer et puis garder appuyez 6.");
+        System.out.println("pour charger la dernière sauvegarde 7.");
         Scanner sc = new Scanner(System.in);
         int startOption = sc.nextInt();
         if(startOption==1){
@@ -60,6 +57,9 @@ public class World {
         if(startOption==6){
             this.creerCombatJuable();
         }
+        if(startOption==7){
+            this.lireMonde();
+        }
     }
 
     /**
@@ -67,7 +67,7 @@ public class World {
      */
     public World() {
         this.creatures = new ArrayList<Creature>();
-            this.eleJeu = new ArrayList<ElementDeJeu>();
+        this.eleJeu = new ArrayList<ElementDeJeu>();
 
     }
 
@@ -303,7 +303,6 @@ public class World {
         System.out.println(TotalVie4);
     }
     public void AddAleaCollections(){
-        taille = 9;
         Random random = new Random();
         //creation archer avec moins de points de attaque mais plus de precision
         int numberdegattArch = random.nextInt(20 - 10) + 10; //max 20 min 10 faible attaque
@@ -344,14 +343,14 @@ public class World {
         for (int i = 0; i < nbLoup; i++) {
             eleJeu.add(new Loup("Loup", random.nextInt(100), 0, 0, 0, 0, new Point2D()));
         }
-        eleJeu.add(new PotionSoin(new Point2D(),10));
-        eleJeu.add(new PotionSoin(new Point2D(),10));
+        eleJeu.add(new PotionSoin(new Point2D(random.nextInt(taille),random.nextInt(taille)),10));
+        eleJeu.add(new PotionSoin(new Point2D(random.nextInt(taille),random.nextInt(taille)),10));
 
         //CREATION DE POINTS
         ArrayList<Point2D> points = new ArrayList<>();
         boolean  different = true;
         //points EleJeu
-        while(points.size()<eleJeu.size()){
+        while(points.size()<eleJeu.size()+1){
             Point2D point = new Point2D(random.nextInt(taille), random.nextInt(taille));
             different = true;
             for(Point2D p: points){
@@ -364,23 +363,12 @@ public class World {
                 points.add(point);
             }
         }
+
         //points nuage
         int numberOfNuages = 1;
         ArrayList<Point2D> pointsNuage = new ArrayList<>();
-        while(pointsNuage.size()<numberOfNuages){
-            Point2D point = new Point2D(random.nextInt(taille), random.nextInt(taille));
-            different = true;
-            for(Point2D p: points){
-                if(p.x == point.x && p.y == point.y){
-                    different = false;
-                    break;
-                }
-            }
-            if(different) {
-                pointsNuage.add(point);
-            }
-        }
-        nuageToxique = new NuageToxique(new Point2D(0,5));
+        NuageToxique nuageToxique = new NuageToxique(new Point2D(0,5));
+        eleJeu.add(nuageToxique);
         espaceMatrix.setPositionMatrix(nuageToxique.getPos(),nuageToxique);
         for (int i=0; i<eleJeu.size(); i++){
             if(eleJeu.get(i) instanceof Creature) {
@@ -489,13 +477,34 @@ public class World {
     }
 
     public void creerCombatJuable(){
-        taille = 9;
-        espaceMatrix = new Matrix(new ElementDeJeu[taille][taille]);
         Creature previousElemJeu = null;
-        AddAleaCollections();
-        player1.choosePersonnage();
+        if(taille == 0){
+            player1.choosePersonnage();
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Digitez taille");
+            taille = sc.nextInt();
+            espaceMatrix = new Matrix(new ElementDeJeu[taille][taille]);
+            AddAleaCollections();
+        }else{
+            System.out.println("Chargement de jeu... ");
+            espaceMatrix = new Matrix(new ElementDeJeu[taille][taille]);
+            for (ElementDeJeu eleJeu:eleJeu
+                 ) {
+                if(eleJeu instanceof Creature){
+                    espaceMatrix.setPositionMatrix(((Creature) eleJeu).getPos(),eleJeu);
+                }
+                if(eleJeu instanceof Objet) {
+                    espaceMatrix.setPositionMatrix(((Objet) eleJeu).getPos(), eleJeu);
+                }
+            }
+            espaceMatrix.setPositionMatrix(player1.perso.getPos(), player1.perso);
+        }
+
+
+
         espaceMatrix.setPositionMatrix(player1.getPerso().getPos(),player1.perso);
         espaceMatrix.affiche(player1,null);
+
         while (player1.perso.getPtVie()>0) {
             tourDeJeu(player1,previousElemJeu,null);
             if (player1.perso.getPtVie() <= 0) {
@@ -512,7 +521,7 @@ public class World {
         String option;
         Random random1 = new Random();
         if(recursive == null) {
-                System.out.println("awsd pour se deplacer ou q pour attaquer, i inventory and p prendre objet, x saves");
+                System.out.println("awsd pour se deplacer ou q pour attaquer, i inventory and p prendre objet, x saves, y retourner");
                 Scanner sc = new Scanner(System.in);
                 option = sc.nextLine();
         } else {
@@ -634,9 +643,12 @@ public class World {
             }  else{
                 System.out.println("Inventory Vide");
             }
+        }else if(option.equals("y")){
+            startGame();
         }else{
             System.out.println("Appuyer sur un valeur valide");
         }
+        NuageToxique nuageToxique = ((NuageToxique)eleJeu.get(eleJeu.size()-1));
         nuageToxique.deplace(espaceMatrix);
         int numberRdnx = random1.nextInt(1 + 1) - 1;
         int numberRdny = random1.nextInt(1 + 1) - 1;
@@ -667,27 +679,27 @@ public class World {
             size = "Size "+this.taille+"\n";
 
             for (ElementDeJeu e: eleJeu) {
-                total+=writePersonnage(e);
+                total+=writePersonnage(e,espaceMatrix);
             }
             for (ElementDeJeu e: eleJeu) {
-                total+=writeMonstre(e);
+                total+=writeMonstre(e,espaceMatrix);
             }
             for (ElementDeJeu e: eleJeu) {
-                total+=writeObjet(e);
+                total+=writeObjet(e,espaceMatrix);
             }
 
             //Ajout personnage jouer
-            total+="Joueur "+ writePersonnage(player1.getPerso());
+            total+="Joueur "+ writePersonnage(player1.getPerso(), espaceMatrix);
 
             //Ajout INVENTAIRE
-            total+="Inventaire  ";
+            total+="Inventaire  \n";
             for (Utilisable e: player1.getInventaire()) {
-                total+=writeObjet((Objet)e);
+                total+=writeObjet((Objet)e,espaceMatrix);
             }
-            total+="Effets ";
+            total+="Effets \n";
             System.out.println(player1.toString());
             for (Utilisable e: player1.getEffets()) {
-                total+=writeObjet((Objet)e);
+                total+=writeObjet((Objet)e,espaceMatrix);
             }
 
             String joueur = "";
@@ -709,6 +721,69 @@ public class World {
         }
     }
 
+    public void lireMonde(){
+        BufferedReader bw = null;
+        try {
+            String rute = new File("").getAbsolutePath();
+            FileReader fw = new FileReader(rute+"/src/saves/world.txt");
+            bw = new BufferedReader(fw);
+
+            String mot = "";
+            while ((mot = bw.readLine()) != null) {
+               String[] phrases = mot.split(" ");
+                if(phrases[0].equals("Size")){
+                    taille = Integer.parseInt(phrases[1]);
+                }else if(phrases[0].equals("Archer") || phrases[0].equals("Paysan") || phrases[0].equals("Guerrier")){
+                    eleJeu.add(readPersonnage(phrases));
+                }else if(phrases[0].equals("Lapin") || phrases[0].equals("Loup")){
+                   eleJeu.add(readMonster(phrases));
+                }else if(phrases[0].equals("PotionSoin") || phrases[0].equals("Epee")|| phrases[0].equals("NuageToxique") ){
+                   eleJeu.add(readObjet(phrases));
+                }else if(phrases[0].equals("Joueur")) {
+                    player1.setInventaire(new ArrayList<>());
+                    player1.perso = (Personnage) readPersonnage(Arrays.copyOfRange(phrases, 1, phrases.length));
+                   player1.setEffets(new ArrayList<>());
+                   mot = bw.readLine();
+                   String[] phrases2 = mot.split(" ");
+                   if (phrases2[0].equals("Inventaire")){
+                       while ((mot = bw.readLine()) != null) {
+                           phrases2 = mot.split(" ");
+                           if(phrases2[0].equals("PotionSoin") || phrases2[0].equals("Epee") ){
+                               player1.getInventaire().add((Utilisable)readObjet(phrases2));
+                           }else{
+                               break;
+                           }
+                       }
+                   }
+                   if (phrases2[0].equals("Effets")){
+                       while ((mot = bw.readLine()) != null) {
+                           phrases2 = mot.split(" ");
+                           if(phrases2[0].equals("PotionSoin") || phrases2[0].equals("Epee") ){
+                               player1.getEffets().add((Utilisable)readObjet(phrases2));
+                           }
+                       }
+                   }
+               }
+            }
+
+
+            System.out.println("File read Successfully");
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        finally
+        {
+            try{
+                if(bw!=null)
+                    bw.close();
+            }catch(Exception ex){
+                System.out.println("Error in closing the BufferedWriter"+ex);
+            }
+        }
+        startGame();
+    }
+
 
     /**
      * Fonction pour afficher le monde
@@ -717,9 +792,9 @@ public class World {
 
     }
 
-    public String writePersonnage(ElementDeJeu e){
+    public String writePersonnage(ElementDeJeu e, Matrix monde){
         String personnage = "";
-        if (e instanceof Creature) {
+        if (e instanceof Creature && monde.getPositionMatrix(((Creature)e).getPos())!=null) {
             if (e instanceof Personnage) {
                 if (e instanceof Archer) {
                     personnage += "Archer " + ((Archer) e).getNom() + " " + ((Archer) e).getPtVie() + " " + ((Archer) e).getDegAtt() + " " + ((Archer) e).getPtPar() + " " + ((Archer) e).getPageAtt() + " " + ((Archer) e).getPagePar() + " " + ((Archer) e).getDistAttMax() + " " + ((Archer) e).getPos().getX() + " " + ((Archer) e).getPos().getY() + " " + ((Archer) e).getNbFleches()+"\n";
@@ -735,9 +810,11 @@ public class World {
         return personnage;
     }
 
-    public String writeMonstre(ElementDeJeu e){
+
+
+    public String writeMonstre(ElementDeJeu e, Matrix monde){
         String monster = "";
-        if (e instanceof Creature) {
+        if (e instanceof Creature && monde.getPositionMatrix(((Creature)e).getPos())!=null) {
             if (e instanceof Monstre) {
                 if (e instanceof Lapin) {
                     Lapin p = (Lapin) e;
@@ -752,9 +829,9 @@ public class World {
         return monster;
     }
 
-    public String writeObjet(ElementDeJeu e){
+    public String writeObjet(ElementDeJeu e, Matrix monde){
         String objets="";
-        if (e instanceof Objet) {
+        if (e instanceof Objet && monde.getPositionMatrix(((Objet)e).getPos())!=null) {
             if (e instanceof PotionSoin) {
                 PotionSoin p = (PotionSoin) e;
                 objets += "PotionSoin " + p.getUses() + " " + p.getPtRevit() + " " + p.getPos().getX() + " " + p.getPos().getY()+"\n";
@@ -765,11 +842,84 @@ public class World {
             }
             if (e instanceof NuageToxique) {
                 NuageToxique p = (NuageToxique) e;
-
                 objets += "NuageToxique " + p.getDegAtt() + " " + p.getPos().getX() + " " + p.getPos().getY()+"\n";
             }
         }
         return objets;
     }
+    public Creature readPersonnage(String[] s){
+        Creature c = new Creature();
+        if (s[0].equals("Archer")) {
+            c = new Archer(s[1],
+                    Integer.parseInt(s[2]),
+                    Integer.parseInt(s[3]),
+                    Integer.parseInt(s[4]),
+                    Integer.parseInt(s[5]),
+                    Integer.parseInt(s[6]),
+                    Integer.parseInt(s[7]),
+                    new Point2D(Integer.parseInt(s[8]),Integer.parseInt(s[9])),
+                    Integer.parseInt(s[9]));
+        }
+        if (s[0].equals("Guerrier")) {
+            c = new Guerrier(s[1],
+                    Integer.parseInt(s[2]),
+                    Integer.parseInt(s[3]),
+                    Integer.parseInt(s[4]),
+                    Integer.parseInt(s[5]),
+                    Integer.parseInt(s[6]),
+                    Integer.parseInt(s[7]),
+                    new Point2D(Integer.parseInt(s[8]),Integer.parseInt(s[9])));        }
+        if (s[0].equals("Paysan")) {
+            c = new Paysan(s[1],
+                    Integer.parseInt(s[2]),
+                    Integer.parseInt(s[3]),
+                    Integer.parseInt(s[4]),
+                    Integer.parseInt(s[5]),
+                    Integer.parseInt(s[6]),
+                    Integer.parseInt(s[7]),
+                    new Point2D(Integer.parseInt(s[8]), Integer.parseInt(s[9])));
+        }
+        return c;
+    }
 
+    public Objet readObjet(String[] s){
+        Objet c = new Objet();
+        if (s[0].equals("PotionSoin")) {
+            c = new PotionSoin(new Point2D(Integer.parseInt(s[3]), Integer.parseInt(s[4])),
+                    Integer.parseInt(s[1]),  Integer.parseInt(s[2]));
+        }
+        if (s[0].equals("Epee")) {
+            c = new Epee(
+                    new Point2D(Integer.parseInt(s[2]), Integer.parseInt(s[3])),
+                    Integer.parseInt(s[1]));
+        }
+        if (s[0].equals("NuageToxique")) {
+            c = new NuageToxique(
+                    new Point2D(Integer.parseInt(s[2]), Integer.parseInt(s[3])),
+                    Integer.parseInt(s[1]));
+        }
+        return c;
+    }
+    public Creature readMonster(String[] s){
+        Creature c = new Creature();
+        if (s[0].equals("Lapin")) {
+            c = new Lapin(s[1],
+                    Integer.parseInt(s[2]),
+                    Integer.parseInt(s[3]),
+                    Integer.parseInt(s[4]),
+                    Integer.parseInt(s[5]),
+                    Integer.parseInt(s[6]),
+                    new Point2D(Integer.parseInt(s[7]),Integer.parseInt(s[8])));
+        }
+        if (s[0].equals("Loup")) {
+            c = new Loup(s[1],
+                    Integer.parseInt(s[2]),
+                    Integer.parseInt(s[3]),
+                    Integer.parseInt(s[4]),
+                    Integer.parseInt(s[5]),
+                    Integer.parseInt(s[6]),
+                    new Point2D(Integer.parseInt(s[7]),Integer.parseInt(s[8])));
+        }
+        return c;
+    }
 }
