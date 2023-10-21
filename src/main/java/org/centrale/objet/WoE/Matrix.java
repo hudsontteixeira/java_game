@@ -60,23 +60,35 @@ public class Matrix {
      * Methòde qui affiche notre matrice de monde dans le console
      */
     public void affiche(Joueur jouer, ElementDeJeu opponent){
-        int valueShow = 0;
+        String valueShow = "0";
+        for (int i = 0; i < this.espaceMatrix.length*2+1; i++)
+            System.out.print("_");
+        System.out.println();
         for (int i = 0; i < this.espaceMatrix.length; i++) {
+            System.out.print(Integer.toString(i)+' ');
             for (int j = 0; j < this.espaceMatrix[i].length; j++) {
                 if(this.espaceMatrix[i][j] != null){
-                    valueShow = 1;
+                    valueShow = this.espaceMatrix[i][j].getClass().getSimpleName().substring(0,1);
                 }
                 else {
-                    valueShow = 0;
+                    valueShow = ".";
                 }
                 if(jouer != null && i==jouer.perso.getPos().getX()&& j==jouer.perso.getPos().getY()) {
                     System.out.print("\u001B[34m"+jouer.perso.getNom().substring(0,1)+"\u001B[0m" + " ");
+
                 } else if (((Creature)opponent) != null && i==((Creature)opponent).getPos().getX()&& j==((Creature)opponent).getPos().getY()) {
                     System.out.print("\u001B[31m"+valueShow+"\u001B[0m" + " ");
+
                 } else if(this.espaceMatrix[i][j] instanceof Objet){
+
                     if((Objet)this.espaceMatrix[i][j] instanceof NuageToxique){
-                        System.out.print("\u001B[35m"+valueShow+"\u001B[0m" + " ");
-                    }else{System.out.print("\u001B[36m"+valueShow+"\u001B[0m" + " ");};
+                        System.out.print("\u001B[35m"+"N"+"\u001B[0m" + " ");
+                    }else if((Objet)this.espaceMatrix[i][j] instanceof PotionSoin){
+                        System.out.print("\u001B[36m"+"P"+"\u001B[0m" + " ");
+                    }else if((Objet)this.espaceMatrix[i][j] instanceof Epee){
+                        System.out.print("\u001B[36m"+"E"+"\u001B[0m" + " ");
+                    };
+
                 } else {
                     System.out.print(valueShow + " ");
                 }
