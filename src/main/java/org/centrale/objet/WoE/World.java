@@ -430,6 +430,11 @@ public class World {
         robin4.deplace(espaceMatrix);
         espaceMatrix.affiche(player1,null);
     }
+
+    public int recursiveError(int i){
+        i = i + 2;
+        return i + recursiveError(i + 2);
+    }
     public void creerCombatMondeAleaException ()  {
         Archer nulo = null;
 
@@ -479,6 +484,36 @@ public class World {
         }catch(NumberFormatException e){
             System.out.println("Exception trouvée: "+e.toString());
         };
+
+        /* StackOverflowError */
+        int i = 0;
+        try {
+            int nb = recursiveError(i);
+        }catch(StackOverflowError e){
+            System.out.println("Exception trouvée: "+e.toString());
+        };
+
+        /*ConcurrentModificationException*/
+        ArrayList<Nourriture> arr = new ArrayList<Nourriture>();
+        arr.add(new Nourriture(1,2));
+        arr.add(new Nourriture(2,2));
+        arr.add(new Nourriture(3,2));
+        arr.add(new Nourriture(4,2));
+        arr.add(new Nourriture(5,2));
+
+
+        try {
+            // Loop
+            for (Nourriture elem : arr) {
+                if (elem.getTours()==2) {
+                    arr.remove(elem); // exception.
+                }
+            }
+        }
+        catch (ConcurrentModificationException e) {
+            System.out.println("Exception trouvée: "+e);
+        }
+
     }
 
     public void creerCombatJuable(){
