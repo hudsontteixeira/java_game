@@ -430,6 +430,11 @@ public class World {
         robin4.deplace(espaceMatrix);
         espaceMatrix.affiche(player1,null);
     }
+
+    public ArrayList<Nourriture> recursiveError(ArrayList<Nourriture>arr,int i){
+        arr.add(new Nourriture(1,2));
+        return recursiveError(arr,i + 2);
+    }
     public void creerCombatMondeAleaException ()  {
         Archer nulo = null;
 
@@ -479,6 +484,37 @@ public class World {
         }catch(NumberFormatException e){
             System.out.println("Exception trouvée: "+e.toString());
         };
+
+        /* StackOverflowError */
+        int i = 0;
+        ArrayList<Nourriture> foodList = new ArrayList<Nourriture>();
+        try {
+            ArrayList<Nourriture>arrError = recursiveError(foodList,i);
+        } catch(StackOverflowError e){
+            System.out.println("Exception trouvée: "+e.toString());
+        };
+
+        /*ConcurrentModificationException*/
+        ArrayList<Nourriture> arr = new ArrayList<Nourriture>();
+        arr.add(new Nourriture(1,2));
+        arr.add(new Nourriture(2,2));
+        arr.add(new Nourriture(3,2));
+        arr.add(new Nourriture(4,2));
+        arr.add(new Nourriture(5,2));
+
+
+        try {
+            // Loop
+            for (Nourriture elem : arr) {
+                if (elem.getTours()==2) {
+                    arr.remove(elem); // exception.
+                }
+            }
+        }
+        catch (ConcurrentModificationException e) {
+            System.out.println("Exception trouvée: "+e);
+        }
+
     }
 
     public void creerCombatJuable(){
@@ -622,7 +658,10 @@ public class World {
 
                 break;
             case "x":
-                garderMonde();
+                System.out.println("Choisissez un nom pour sauvegarder le match");
+                Scanner scanSave = new Scanner(System.in);
+                String nomSauvegarde = scanSave.nextLine();
+                garderMonde(nomSauvegarde);
                 break;
             case "i":
                 if (!jr.getInventaire().isEmpty()) {
@@ -672,11 +711,26 @@ public class World {
         tourDeJeu(jr,previousElemJeu,null);
     }
 
-    public void garderMonde(){
+    public void garderMonde(String nomSauvegarde){
         BufferedWriter bw = null;
         try {
             String rute = new File("").getAbsolutePath();
-            File file = new File(rute+"/src/saves/world.txt");
+            File file = null;
+            if(nomSauvegarde.isEmpty()) {
+                FileReader fw = null;
+                int version=1;
+                while (version >= 1) {
+                    try {
+                        fw = new FileReader(rute + "/src/saves/sauvegarde" + version + ".txt");
+                    } catch (FileNotFoundException e) {
+                        file = new File(rute + "/src/saves/sauvegarde"+version+".txt");
+                        break;
+                    }
+                    version+=1;
+                }
+            } else{
+                file = new File(rute + "/src/saves/" + nomSauvegarde + ".txt");
+            }
             if (!file.exists()) {
                 file.createNewFile();
             }
@@ -732,10 +786,13 @@ public class World {
     }
 
     public void lireMonde(){
+        System.out.println("Nom de sauvegarde svp");
+        Scanner sclire = new Scanner(System.in);
+        String nomSauve = sclire.next();
         BufferedReader bw = null;
         try {
             String rute = new File("").getAbsolutePath();
-            FileReader fw = new FileReader(rute+"/src/saves/world.txt");
+            FileReader fw = new FileReader(rute+"/src/saves/"+nomSauve+".txt");
             bw = new BufferedReader(fw);
 
             String mot = "";
