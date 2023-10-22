@@ -431,9 +431,9 @@ public class World {
         espaceMatrix.affiche(player1,null);
     }
 
-    public int recursiveError(ArrayList<Nourriture>arr,int i){
+    public ArrayList<Nourriture> recursiveError(ArrayList<Nourriture>arr,int i){
         arr.add(new Nourriture(1,2));
-        return i + recursiveError(arr,i + 2);
+        return recursiveError(arr,i + 2);
     }
     public void creerCombatMondeAleaException ()  {
         Archer nulo = null;
@@ -489,7 +489,7 @@ public class World {
         int i = 0;
         ArrayList<Nourriture> foodList = new ArrayList<Nourriture>();
         try {
-            int nb = recursiveError(foodList,i);
+            ArrayList<Nourriture>arrError = recursiveError(foodList,i);
         } catch(StackOverflowError e){
             System.out.println("Exception trouvée: "+e.toString());
         };
