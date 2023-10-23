@@ -34,7 +34,7 @@ public class Guerrier extends Personnage implements Combattant {
      */
     public void combattre(Creature C, Matrix monde){
         //using 1.414 as racine 2
-        if(this.getPos().distance(C.getPos())<=1.414){
+        if(this.getPos().distance(C.getPos())<=1.43){
             //Dee Attaque
             Random deeAtk = new Random();
             int numberdeeAtk = deeAtk.nextInt(100) +1;

@@ -1,15 +1,14 @@
 Size 9
-Archer Arqueiro 100 19 13 95 30 10 0 4 39
-Archer Arqueiro 100 19 13 95 30 10 5 2 39
+Archer Arqueiro 100 19 13 95 30 10 0 4 4
+Archer Arqueiro 100 19 13 95 30 10 5 2 2
 Paysan Paisano 100 0 0 0 0 0 8 8
 Paysan Paisano 100 0 0 0 0 0 0 7
-Guerrier Guerreiro 100 38 53 44 53 0 4 3
 Lapin Lapin 100 0 0 0 0 6 2
 Lapin Lapin 100 0 0 0 0 3 0
 Loup Loup 18 0 0 0 0 8 4
-PotionSoin 3 10 3 4
-PotionSoin 3 10 8 7
+PotionSoin 10 3 3 4
+PotionSoin 10 3 8 7
 NuageToxique 0 3 1
-Joueur Archer F 100 18 1 70 15 17 2 3 37
+Joueur Archer F 100 18 1 70 15 17 2 3 3
 Inventaire  
 Effets 

@@ -7,6 +7,7 @@ import java.util.*;
  * @version 1.0
  */
 public class World {
+    Random random1 = new Random();
 
     Joueur player1 = new Joueur();
     ArrayList<Creature> creatures;
@@ -30,34 +31,19 @@ public class World {
      * Fonction que demande une option de jeu pour commencer
      */
     public void startGame(){
-        System.out.println("1. Bienvenue dans WoE : Pour tester un monde aléatoire appuyez 1,") ;
-        System.out.println("2. Pour générer un monde de combat (TP2)\n3. Pour tester un monde avec de grandes collections et tester leurs performances appuyez 3,");
-        System.out.println("4. Pour générer un monde où les personnages ne peuvent pas se chevaucher appuyez (TP3) 4.");
-        System.out.println("5. Pour regarder des exceptions (TP4) 5.");
-        System.out.println("6. Pour atribuire un personnage jouable à un jouer et puis garder appuyez (TP5)");
-        System.out.println("7. Pour charger la dernière sauvegarde (TP6)");
+        //System.out.println("1. Bienvenue dans WoE : Pour tester un monde aléatoire appuyez 1,") ;
+        //System.out.println("2. Pour générer un monde de combat (TP2)\n3. Pour tester un monde avec de grandes collections et tester leurs performances appuyez 3,");
+        //System.out.println("4. Pour générer un monde où les personnages ne peuvent pas se chevaucher appuyez (TP3) 4.");
+        //System.out.println("5. Pour regarder des exceptions (TP4) 5.");
+        System.out.println("1. Pour atribuire un personnage jouable à un jouer et puis garder appuyez (TP5)");
+        System.out.println("2. Pour charger une sauvegarde (TP6)");
         Scanner sc = new Scanner(System.in);
         int startOption = sc.nextInt();
         switch (startOption) {
             case 1:
-                this.creerMondeAlea();
-                break;
-            case 2:
-                this.creerCombatMondeAlea();
-                break;
-            case 3:
-                this.creerMondeAleaCollections();
-                break;
-            case 4:
-                this.creerMatrixPosition();
-                break;
-            case 5:
-                this.creerCombatMondeAleaException();
-                break;
-            case 6:
                 this.creerCombatJuable();
                 break;
-            case 7:
+            case 2:
                 this.lireMonde();
                 break;
             default:
@@ -325,11 +311,11 @@ public class World {
         int numberptparWarrior = random.nextInt(20 - 10) + 1; //max 20 min 10
         int numberpageparWarrior = random.nextInt(70 - 50) + 50; //max 70 min 50 bonne chance de defense
          //set amount of opponents in the game for each class
-        int nbArcher =  2;
-        int nbPaysan =  2;
-        int nbLapin =  2;
-        int nbGuerrier =  2;
-        int nbLoup =  1;
+        int nbArcher =  (int)taille/2;
+        int nbPaysan =  (int)taille/2;
+        int nbLapin =  (int)taille/2;
+        int nbGuerrier =  (int)taille/2;
+        int nbLoup =  (int)taille/2;
 
         /*
         CREATION D'ITENS
@@ -352,6 +338,8 @@ public class World {
         }
         eleJeu.add(new PotionSoin(new Point2D(random.nextInt(taille),random.nextInt(taille)),10));
         eleJeu.add(new PotionSoin(new Point2D(random.nextInt(taille),random.nextInt(taille)),10));
+        eleJeu.add(new Epee(new Point2D(random.nextInt(taille),random.nextInt(taille)),10));
+        eleJeu.add(new Epee(new Point2D(random.nextInt(taille),random.nextInt(taille)),10));
 
         //CREATION DE POINTS
         ArrayList<Point2D> points = new ArrayList<>();
@@ -541,8 +529,14 @@ public class World {
             Scanner sc = new Scanner(System.in);
             System.out.println("Digitez taille du monde (Supérieure à 5)");
             taille = sc.nextInt();
-            espaceMatrix = new Matrix(new ElementDeJeu[taille][taille]);
-            AddAleaCollections();
+            if(taille<=5){
+                taille=0;
+                creerCombatJuable();
+            }
+            else {
+                espaceMatrix = new Matrix(new ElementDeJeu[taille][taille]);
+                AddAleaCollections();
+            }
         }else{
             System.out.println("Chargement de jeu... ");
             espaceMatrix = new Matrix(new ElementDeJeu[taille][taille]);
@@ -562,7 +556,11 @@ public class World {
         espaceMatrix.affiche(player1,null);
 
         while (player1.perso.getPtVie()>0) {
-            tourDeJeu(player1,previousElemJeu,null);
+            try{
+                tourDeJeu(player1,previousElemJeu,null);
+            }catch (StackOverflowError s){
+                tourDeJeu(player1,previousElemJeu,null);
+            }
             if (player1.perso.getPtVie() <= 0) {
                 System.out.println("Fin de Jeu tu as perdu");
                 break;
@@ -575,7 +573,6 @@ public class World {
      */
     public void tourDeJeu(Joueur jr, Creature previousElemJeu, String recursive){
         String option;
-        Random random1 = new Random();
         if(recursive == null) {
                 System.out.println("AWSD pour se deplacer \nQ pour attaquer, \nI pour ouvrir inventaire \nX Pour garder monde \nY Pour retourner");
                 Scanner sc = new Scanner(System.in);
@@ -595,13 +592,13 @@ public class World {
                 previousElemJeu = null;
                 break;
             case "q":
-                int numberRdnx = random1.nextInt(1 + 1) - 1;
-                int numberRdny = random1.nextInt(1 + 1) - 1;
+                int numberRdnx = random1.nextInt(3) - 1;
+                int numberRdny = random1.nextInt(3) - 1;
                 if (jr.perso instanceof Archer) {
                     numberRdnx = random1.nextInt(((jr.perso).getDistAttMax() - 1) + ((jr.perso).getDistAttMax() - 1)) - ((jr.perso).getDistAttMax() - 1);
                     numberRdny = random1.nextInt(((jr.perso).getDistAttMax() - 1) + ((jr.perso).getDistAttMax() - 1)) - ((jr.perso).getDistAttMax() - 1);
                 }
-                Point2D AtackPoint = new Point2D(jr.perso.getPos().getX() + numberRdnx, jr.perso.getPos().getX() + numberRdny);
+                Point2D AtackPoint = new Point2D(jr.perso.getPos().getX() + numberRdnx, jr.perso.getPos().getY() + numberRdny);
                 //start new fight
                 if (previousElemJeu == null) {
                     if (espaceMatrix.getPositionMatrix(AtackPoint) != null && espaceMatrix.getPositionMatrix(AtackPoint) instanceof Creature) {
@@ -718,10 +715,11 @@ public class World {
         nuageToxique.deplace(espaceMatrix);
         int numberRdnx = random1.nextInt(1 + 1) - 1;
         int numberRdny = random1.nextInt(1 + 1) - 1;
-        Point2D AtackPoint = new Point2D(nuageToxique.getPos().getX()+numberRdnx,nuageToxique.getPos().getX()+numberRdny);
+        Point2D AtackPoint = new Point2D(nuageToxique.getPos().getX()+numberRdnx,nuageToxique.getPos().getY()+numberRdny);
         if(espaceMatrix.getPositionMatrix(AtackPoint)!=null && espaceMatrix.getPositionMatrix(AtackPoint) instanceof Creature ) {
            nuageToxique.combattre((Creature)espaceMatrix.getPositionMatrix(AtackPoint), espaceMatrix);
         }
+        nuageToxique.deplace(espaceMatrix);
         espaceMatrix.affiche(player1,previousElemJeu);
         tourDeJeu(jr,previousElemJeu,null);
     }
@@ -808,7 +806,7 @@ public class World {
      * Fonction pour lire un fichier du type txt
      */
     public void lireMonde(){
-        System.out.println("Nom de sauvegarde svp");
+        System.out.println("Donner le nom de la sauvegarde");
         Scanner sclire = new Scanner(System.in);
         String nomSauve = sclire.next();
         BufferedReader bw = null;

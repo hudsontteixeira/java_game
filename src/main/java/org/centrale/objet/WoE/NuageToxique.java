@@ -60,15 +60,17 @@ public class NuageToxique extends Objet implements Deplacable,Combattant {
     @Override
     public void deplace(Matrix monde) {
         Random random1 = new Random();
-        Random random2 = new Random();
-        int numberRdnx = random1.nextInt( 3) - 1;
-        int numberRdny = random2.nextInt() - 1;
-        while (monde.getPositionMatrix(new Point2D(this.getPos().getX()+numberRdnx,this.getPos().getY()+numberRdny))!=null){
+        int numberRdnx = random1.nextInt(3) - 1;
+        int numberRdny = random1.nextInt(3) - 1;
+        while (monde.getPositionMatrix(new Point2D(this.getPos().getX()+numberRdnx,this.getPos().getY()+numberRdny))!=null
+                || this.getPos().getX()+numberRdnx < 0  || this.getPos().getY()+numberRdny < 0
+                || this.getPos().getX()+numberRdnx == monde.getEspaceMatrix().length || this.getPos().getY()+numberRdny == monde.getEspaceMatrix().length){
             random1 = new Random();
-            random2 = new Random();
-            numberRdnx = random1.nextInt(3 ) - 1;
-            numberRdny = random2.nextInt(3 ) - 1;
+            numberRdnx = random1.nextInt(3) - 1;
+            numberRdny = random1.nextInt(3) - 1;
         }
+        System.out.println(numberRdnx);
+        System.out.println(numberRdny);
         Point2D pointTest = new Point2D(this.getPos().getX()+numberRdnx,this.getPos().getY()+numberRdny);
         if(monde.getPositionMatrix(pointTest)==null&&pointTest.getX()>=0&&pointTest.getX()<=monde.getEspaceMatrix()[0].length&&pointTest.getY()>=0&&pointTest.getY()<=monde.getEspaceMatrix()[0].length){
             monde.setPositionMatrix(this.getPos(), null);

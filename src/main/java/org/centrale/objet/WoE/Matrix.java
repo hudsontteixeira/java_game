@@ -85,11 +85,11 @@ public class Matrix {
                 } else if(this.espaceMatrix[i][j] instanceof Objet){
 
                     if((Objet)this.espaceMatrix[i][j] instanceof NuageToxique){
-                        System.out.print("\u001B[35m"+"N"+"\u001B[0m" + " ");
+                        System.out.print("\u001B[35m"+"n"+"\u001B[0m" + " ");
                     }else if((Objet)this.espaceMatrix[i][j] instanceof PotionSoin){
-                        System.out.print("\u001B[36m"+"P"+"\u001B[0m" + " ");
+                        System.out.print("\u001B[36m"+"p"+"\u001B[0m" + " ");
                     }else if((Objet)this.espaceMatrix[i][j] instanceof Epee){
-                        System.out.print("\u001B[36m"+"E"+"\u001B[0m" + " ");
+                        System.out.print("\u001B[36m"+"e"+"\u001B[0m" + " ");
                     };
 
                 } else {
