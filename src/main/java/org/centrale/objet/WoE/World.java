@@ -560,8 +560,6 @@ public class World {
             espaceMatrix.setPositionMatrix(player1.perso.getPos(), player1.perso);
         }
 
-
-
         espaceMatrix.setPositionMatrix(player1.getPerso().getPos(),player1.perso);
         espaceMatrix.affiche(player1,null);
 
