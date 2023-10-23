@@ -70,6 +70,7 @@ public class Archer extends Personnage implements Combattant{
     /**
      * Fonction de combattre à distance avec une créature
      * @param C c'est la creature avec on va avoir un combatt
+     * @param monde lieu où on a le combatt
      */
     public void combattre(Creature C, Matrix monde){
         //Dee Attaque

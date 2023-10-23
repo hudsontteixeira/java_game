@@ -41,7 +41,9 @@ public class Epee extends Objet implements Utilisable{
     public void setPtdegat(int ptdegat) {
         this.ptdegat = ptdegat;
     }
-
+    /**
+     * Méthode pour decrementer le nombre de utilisation d'iobjet
+     */
     @Override
     public void decrementer() {
         uses-=1 ;

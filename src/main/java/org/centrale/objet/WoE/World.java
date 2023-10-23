@@ -306,6 +306,10 @@ public class World {
         System.out.println(timeH-timeG);
         System.out.println(TotalVie4);
     }
+
+    /**
+     * Fonction qui ajoute des elements de jeu À notre jeu du TP5/TP6.
+     */
     public void AddAleaCollections(){
         Random random = new Random();
         //creation archer avec moins de points de attaque mais plus de precision
@@ -431,10 +435,20 @@ public class World {
         espaceMatrix.affiche(player1,null);
     }
 
+    /**
+     * Fonction pour démontrée la exception de StackOverFlow
+     * @param arr array à être à ajouté des nouveaux objets jusq à l'infinie
+     * @param i counter
+     * @return error
+     */
     public ArrayList<Nourriture> recursiveError(ArrayList<Nourriture>arr,int i){
         arr.add(new Nourriture(1,2));
         return recursiveError(arr,i + 2);
     }
+
+    /**
+     * Fonction pour démontrer dans la consle les exceptions JAVA
+     */
     public void creerCombatMondeAleaException ()  {
         Archer nulo = null;
 
@@ -517,6 +531,9 @@ public class World {
 
     }
 
+    /**
+     * Fonction pour créer un Combat juable
+     */
     public void creerCombatJuable(){
 
         Creature previousElemJeu = null;
@@ -713,6 +730,10 @@ public class World {
         tourDeJeu(jr,previousElemJeu,null);
     }
 
+    /**
+     * Fonction pour sauvegarder un partie
+     * @param nomSauvegarde nom pour la pasrtie à sauvegarder
+     */
     public void garderMonde(String nomSauvegarde){
         BufferedWriter bw = null;
         try {
@@ -787,6 +808,9 @@ public class World {
         }
     }
 
+    /**
+     * Fonction pour lire un fichier du type txt
+     */
     public void lireMonde(){
         System.out.println("Nom de sauvegarde svp");
         Scanner sclire = new Scanner(System.in);
@@ -878,6 +902,12 @@ public class World {
 
     }
 
+    /**
+     *  Fonction pour construire un fichier text des info des personages
+     * @param e element à sauvegarder
+     * @param monde monde où l'element se trouve
+     * @return Infos des personnages en String
+     */
     public String writePersonnage(ElementDeJeu e, Matrix monde){
         String personnage = "";
         if (e instanceof Creature && monde.getPositionMatrix(((Creature)e).getPos())!=null) {
@@ -897,7 +927,12 @@ public class World {
     }
 
 
-
+    /**
+     *  Fonction pour construire un fichier text des info des Monstres
+     * @param e element à sauvegarder
+     * @param monde monde où l'element se trouve
+     * @return Infos des Monstres en String
+     */
     public String writeMonstre(ElementDeJeu e, Matrix monde){
         String monster = "";
         if (e instanceof Creature && monde.getPositionMatrix(((Creature)e).getPos())!=null) {
@@ -915,6 +950,12 @@ public class World {
         return monster;
     }
 
+    /**
+     *  Fonction pour construire un fichier text des info des Objets
+     * @param e element à sauvegarder
+     * @param monde monde où l'element se trouve
+     * @return Infos des Objets en String
+     */
     public String writeObjet(ElementDeJeu e, Matrix monde){
         String objets="";
         if (e instanceof Objet && monde.getPositionMatrix(((Objet)e).getPos())!=null) {
@@ -933,6 +974,12 @@ public class World {
         }
         return objets;
     }
+
+    /**
+     * Fonction pour lire un fichier txt et constuire un personage
+     * @param s ligne à lire
+     * @return Creature crée
+     */
     public Creature readPersonnage(String[] s){
         Creature c = new Creature();
         if (s[0].equals("Archer")) {
@@ -967,7 +1014,11 @@ public class World {
         }
         return c;
     }
-
+    /**
+     * Fonction pour lire un fichier txt et constuire un Objet
+     * @param s ligne à lire
+     * @return Objet crée
+     */
     public Objet readObjet(String[] s){
         Objet c = new Objet();
         if (s[0].equals("PotionSoin")) {
@@ -986,6 +1037,11 @@ public class World {
         }
         return c;
     }
+    /**
+     * Fonction pour lire un fichier txt et constuire un Monstre
+     * @param s ligne à lire
+     * @return Monstre crée
+     */
     public Creature readMonster(String[] s){
         Creature c = new Creature();
         if (s[0].equals("Lapin")) {

@@ -17,6 +17,13 @@ public class PotionSoin extends Objet implements Utilisable {
         this.ptRevit = ptRevit;
         uses = 3;
     }
+
+    /**
+     *
+     * @param pos position donnée d'objet
+     * @param ptRevit points de vie d'un personnage à augmenter
+     * @param uses  quantité d'uses d'objet
+     */
     public PotionSoin(Point2D pos, int ptRevit, int uses) {
         super(pos);
         this.ptRevit = ptRevit;
@@ -39,15 +46,26 @@ public class PotionSoin extends Objet implements Utilisable {
         this.ptRevit = ptRevit;
     }
 
+    /**
+     * Focntion pour reduire l'utilisation d'objet en -1
+     */
     @Override
     public void decrementer() {
         uses-=1;
     }
 
+    /**
+     * Fonction pour prendre les uses disponibles du objet
+     * @return le nombre de utilisation possible
+     */
     public int getUses() {
         return uses;
     }
 
+    /**
+     * Fonction que change la quantité d'utilisation
+     * @param uses nouveau quantité d'uses
+     */
     public void setUses(int uses) {
         this.uses = uses;
     }

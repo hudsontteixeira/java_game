@@ -5,25 +5,50 @@ import java.util.Random;
 public class NuageToxique extends Objet implements Deplacable,Combattant {
 
     private int DegAtt;
+
+    /**
+     * Constructeur pour un nuage avec seulement des point
+     * @param point localisation de la nuage
+     */
     public NuageToxique(Point2D point) {
         super(point);
     }
 
+    /**
+     * Constructeur pour un nuage avec seulement des point et les points de attaque
+     * @param point localisation de la nuage
+     * @param degAtt points à retirer d'opponent lors combatt
+     */
     public NuageToxique(Point2D point, int degAtt) {
         super(point);
         this.DegAtt = degAtt;
     }
 
+    /**
+     * Constructeur de re copie
+     * @param objet nuage à copier
+     */
     public NuageToxique(Objet objet) {
         super(objet);
     }
 
+    /**
+     * Creation de une nuage default
+     */
     public NuageToxique(){}
 
+    /**
+     * Getter pour prendre les point d'attaque
+     * @return points d'attaque de la nuage
+     */
     public int getDegAtt() {
         return DegAtt;
     }
 
+    /**
+     * Setter pour changer les points d'attaque
+     * @param degAtt nouveaux points d'attaque de la nuage
+     */
     public void setDegAtt(int degAtt) {
         DegAtt = degAtt;
     }
@@ -55,6 +80,7 @@ public class NuageToxique extends Objet implements Deplacable,Combattant {
     /**
      * Fonction de combattre corps à corps avec une créature
      * @param C  c'est la creature avec on va avoir un combatt
+     * @param monde  monde où se passe le combatt
      */
     @Override
 

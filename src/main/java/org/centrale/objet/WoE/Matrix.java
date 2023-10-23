@@ -58,7 +58,10 @@ public class Matrix {
     }
     /**
      * Methòde qui affiche notre matrice de monde dans le console
+     * @param jouer Jouer dans le monde
+     *  @param opponent Opponent avec qui je vais avoir un combatt, si il existe
      */
+
     public void affiche(Joueur jouer, ElementDeJeu opponent){
         String valueShow = "0";
         for (int i = 0; i < this.espaceMatrix.length*2+1; i++)
