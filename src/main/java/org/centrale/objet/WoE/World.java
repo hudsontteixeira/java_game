@@ -11,7 +11,6 @@ public class World {
     Joueur player1 = new Joueur();
     ArrayList<Creature> creatures;
     ArrayList<ElementDeJeu> eleJeu;
-    ArrayList<Objet> objets;
     Archer guillaumeT;
     Archer robin;
     Lapin bugs1;
@@ -70,8 +69,8 @@ public class World {
      * Constructeur pour créer un monde default avec un liste de créatures
      */
     public World() {
-        this.creatures = new ArrayList<Creature>();
-        this.eleJeu = new ArrayList<ElementDeJeu>();
+        this.creatures = new ArrayList<>();
+        this.eleJeu = new ArrayList<>();
 
     }
 
@@ -133,7 +132,7 @@ public class World {
         System.out.println("Robin: ");
         robin.affiche();
 
-        double distRobPeon = new Double(robin.getPos().distance(peon.getPos()));
+        double distRobPeon = robin.getPos().distance(peon.getPos());
 
         System.out.println("Dist Robin et peon: "+distRobPeon);
 
@@ -170,9 +169,9 @@ public class World {
         wolfie.combattre(grosBill,espaceMatrix);
         System.out.println("Simulation Guerrier Toue une Loup dist!=1");
         grosBill.combattre(wolfie2,espaceMatrix);
-        System.out.println("Guerrier essaie prendre potion loin");;
+        System.out.println("Guerrier essaie prendre potion loin");
         System.out.println("Guerrier essaie prendre potion bonne place");
-        grosBill.setPos(new Point2D(11,11));;
+        grosBill.setPos(new Point2D(11,11));
         System.out.println("Guerrier ptVie:"+grosBill.getPtVie());
         System.out.println("Guerrier essaie prendre Epee loin");
         System.out.println("Guerrier essaie prendre Epee bonne place");
@@ -223,7 +222,7 @@ public class World {
 
         //CREATION DE POINTS
         ArrayList<Point2D> points = new ArrayList<>();
-        boolean  different = true;
+        boolean  different;
         while(points.size()<creatures.size()){
             Point2D point = new Point2D(random.nextInt(taille), random.nextInt(taille));
             different = true;
@@ -356,7 +355,7 @@ public class World {
 
         //CREATION DE POINTS
         ArrayList<Point2D> points = new ArrayList<>();
-        boolean  different = true;
+        boolean  different;
         //points EleJeu
         while(points.size()<eleJeu.size()+1){
             Point2D point = new Point2D(random.nextInt(taille), random.nextInt(taille));
@@ -374,7 +373,6 @@ public class World {
 
         //points nuage
         int numberOfNuages = 1;
-        ArrayList<Point2D> pointsNuage = new ArrayList<>();
         NuageToxique nuageToxique = new NuageToxique(new Point2D(0,5));
 
         for (int i=0; i<eleJeu.size(); i++){
@@ -456,7 +454,7 @@ public class World {
         try{
         nulo.getPos();
         }catch(NullPointerException e){
-            System.out.println("Exception trouvée: "+e.toString());
+            System.out.println("Exception trouvée: "+e);
         }
 
         for (int i = 0; i < 3; i++) {
@@ -477,7 +475,7 @@ public class World {
             int a = 1/0;
         }catch(ArithmeticException e){
             System.out.println("Exception trouvée: "+e.toString());
-        };
+        }
 
         /* CLASSCAST EXCEPTION */
         try {
@@ -873,7 +871,6 @@ public class World {
                        break;
                }
             }
-
 
             System.out.println("File read Successfully");
 
