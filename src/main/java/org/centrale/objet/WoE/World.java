@@ -7,25 +7,24 @@ import java.util.*;
  * @version 1.0
  */
 public class World {
-    Random random1 = new Random();
-
-    Joueur player1 = new Joueur();
-    ArrayList<Creature> creatures;
-    ArrayList<ElementDeJeu> eleJeu;
-    Archer guillaumeT;
-    Archer robin;
-    Lapin bugs1;
-    Lapin bugs2;
-    Lapin bug1;
-    Lapin bug2;
-    Paysan peon;
-    Guerrier grosBill;
-    Loup wolfie;
-    Loup wolfie2;
-    PotionSoin possionMagic;
-    Epee sword;
-    int taille = 0 ;
-    Matrix espaceMatrix;
+    private Random random1 = new Random();
+    private Joueur player1 = new Joueur();
+    private ArrayList<Creature> creatures;
+    private ArrayList<ElementDeJeu> eleJeu;
+    private Archer guillaumeT;
+    private Archer robin;
+    private Lapin bugs1;
+    private Lapin bugs2;
+    private Lapin bug1;
+    private Lapin bug2;
+    private Paysan peon;
+    private Guerrier grosBill;
+    private Loup wolfie;
+    private Loup wolfie2;
+    private PotionSoin possionMagic;
+    private Epee sword;
+    private int taille = 0 ;
+    private Matrix espaceMatrix;
 
     /**
      * Fonction que demande une option de jeu pour commencer
